@@ -24,8 +24,8 @@ public class MainActivity extends Activity {
 		startserver = (Button) findViewById(R.id.startserver);
         startclient = (Button) findViewById(R.id.startclient);
         sendtestdata = (Button) findViewById(R.id.sendtestdata);
-		startserver.setOnClickListener(new View.OnClickListener() {
 
+		startserver.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				try {
@@ -43,17 +43,15 @@ public class MainActivity extends Activity {
 		});
 
         startclient.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View arg0) {
 
                     myserver = new Clienthandler(MainActivity.this,"192.168.1.3") ;
 					PlayerInfo username1 = new PlayerInfo("Basilisk_game_player_1");
-					Serverhandler.sendToAll(username1);
             }
         });
-        sendtestdata.setOnClickListener(new View.OnClickListener() {
 
+        sendtestdata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 try {
