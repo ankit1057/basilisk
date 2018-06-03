@@ -64,7 +64,7 @@ public class Clienthandler {
                     activesocketsinfo.put(clientsendersocket, ServerOn);
                     while (ServerOn) {
                         if (clientthreadcount < 2) {
-                            ClientsenderThread cliThread = new ClientsenderThread(clientsendersocket, activity, testmessage);
+                            ClientsenderThread cliThread = new ClientsenderThread(clientsendersocket, testmessage);
                             Clientlistenerthread cliThread2 = new Clientlistenerthread(clientsendersocket,activity);
                             //Number of threads
                             clientthreadcount = 2;
@@ -87,6 +87,7 @@ public class Clienthandler {
                 }
             }
         }
+
     }
 
     public String getIpAddress() {
@@ -117,5 +118,9 @@ public class Clienthandler {
         }
         return ip;
     }
-
+    public static void sendToServer(Object gameObject) {
+        Socket socket = sockethashmap.get("Server");
+        ClientsenderThread sendtoserver = new ClientsenderThread(socket, gameObject);
+        sendtoserver.start();
+    }
 }

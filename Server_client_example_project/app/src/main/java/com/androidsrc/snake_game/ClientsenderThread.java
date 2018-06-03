@@ -15,9 +15,8 @@ class ClientsenderThread extends Thread {
         super();
     }
 
-    ClientsenderThread(Socket s, MainActivity activity, Object message) {
+    ClientsenderThread(Socket s, Object message) {
         myserverSocket = s;
-        this.activity = activity;
         this.message = message;
     }
 
