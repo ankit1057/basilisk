@@ -1,6 +1,7 @@
 package com.androidsrc.snake_game;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.androidsrc.snake_game.communication.Clienthandler;
 import com.androidsrc.snake_game.communication.PlayerInfo;
 import com.androidsrc.snake_game.communication.Serverhandler;
+import com.androidsrc.snake_game.game.GameActivity;
 import com.androidsrc.snake_game.snakegame.SnakeGamePanel;
 
 
@@ -101,7 +103,10 @@ public class MainActivity extends Activity {
 			public void onClick(View arg0) {
 				//TODO Startgame intent to next activity
 				switchFullscreen();
-				setContentView(new SnakeGamePanel(MainActivity.this, server));
+				//setContentView(new SnakeGamePanel(MainActivity.this, server));
+                Intent i = new Intent(MainActivity.this, GameActivity.class);
+                i.putExtra("isServer", server);
+                startActivity(i);
 					/*PlayerInfo username1 = new PlayerInfo("Basilisk_game_player_1");
 					Serverhandler.sendToAll(username1);*/
 
