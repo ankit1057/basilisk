@@ -102,7 +102,7 @@ public class SnakeGamePanel extends AbstractGamePanel {
 					//bundle.putSerializable("buffer",buff.nextPosX);
 					System.out.println("xfer_sr_snt");
 					//PlayerInfo xp = new PlayerInfo("send2");
-					Serverhandler.sendToAll(buff);
+					Serverhandler.sendToAll(snake); //TODO: Change it back to buff
 					//server
 				}
 

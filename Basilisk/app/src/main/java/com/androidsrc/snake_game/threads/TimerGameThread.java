@@ -10,7 +10,7 @@ public class TimerGameThread extends BaseGameThread {
 
 	public TimerGameThread(SurfaceHolder surfaceHolder, AbstractGamePanel gamePanel) {
 		super(surfaceHolder, gamePanel);
-		tickInterval = 100; //TODO: Initially 200, check back later
+		tickInterval = 50; //TODO: Initially 200, check back later
 	}
 	
 	public void setTickInterval(int millis) {
