@@ -19,6 +19,8 @@ public class MainFragment extends Fragment {
     public static SnakeGamePanel sgp;
     public static ClientHandler clientHandler;
     public static boolean isServer;
+    public static String username;
+    public static int nusers;
 
     @Override
     public void onAttach(Context context) {
@@ -39,12 +41,14 @@ public class MainFragment extends Fragment {
         if (getArguments() != null) {
             Bundle args = this.getArguments();
             isServer = args.getBoolean("isServer", false);
+            username = args.getString("username");
+            nusers = args.getInt("nusers");
+            sgp = new SnakeGamePanel(username, nusers, act, isServer);
         }
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.activity_snake, container, false);
         //currContext = getActivity().getApplicationContext();
-        sgp = new SnakeGamePanel(act, isServer);
 
         if (clientHandler == null) {
             clientHandler = new ClientHandler();

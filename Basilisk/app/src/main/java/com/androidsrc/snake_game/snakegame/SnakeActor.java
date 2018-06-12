@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class SnakeActor extends SimpleMovingActor {
 	public static final int DRAW_SIZE = 25;
 	public static final int STEP = 25;
-	public ArrayList<PointsXY> tailPos;
+	public static ArrayList<PointsXY> tailPos;
 
 	public SnakeActor(int x, int y) {
 		super(x, y, DRAW_SIZE, DRAW_SIZE);
@@ -60,7 +60,7 @@ public class SnakeActor extends SimpleMovingActor {
 		this.tailPos.add(new PointsXY(getX(), getY()));
 	}
 
-	public boolean checkBoundsCollision(AbstractGamePanel panel) {
+	public boolean checkBoundsCollision(AbstractGamePanel panel, ArrayList<SnakeCommBuffer> enemies) {
 		if (this.getX() < 0) {
 			return true;
 		} else if (this.getX() >= (panel.getWidth() - this.getWidth())) {

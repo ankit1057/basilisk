@@ -53,8 +53,8 @@ class Clientlistenerthread extends Thread
                         //data.putSerializable("Server_object_read", (PlayerInfo) serverObject);
                         //System.out.println(data);
                         System.out.println("xfer_cl_rx_data");
-                        System.out.println("Object read is - " + ((SnakeCommBuffer) serverObject).nextPosX
-                                + ((SnakeCommBuffer) serverObject).nextPosY );
+                        System.out.println("Object read is - " + ((SnakeCommBuffer) serverObject).nextPos.x
+                                + ((SnakeCommBuffer) serverObject).nextPos.y );
                         data.putSerializable("GameDataBuff", (SnakeCommBuffer)serverObject);
 
                         Message msg = new Message();
@@ -70,8 +70,8 @@ class Clientlistenerthread extends Thread
                         //System.out.println(data);
                         SnakeCommBuffer buff = (SnakeCommBuffer)((Bundle) serverObject).getSerializable("buffer");
                         System.out.println("xfer_cl_rx_data");
-                        System.out.println("Object read is - " + buff.nextPosX
-                                + buff.nextPosY );
+                        System.out.println("Object read is - " + buff.nextPos.x
+                                + buff.nextPos.y );
                         //System.out.println("Object read is - " + ((PlayerInfo) serverObject).username);
                     }
 

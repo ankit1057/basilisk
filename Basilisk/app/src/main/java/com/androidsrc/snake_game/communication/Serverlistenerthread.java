@@ -3,6 +3,7 @@ package com.androidsrc.snake_game.communication;
 import android.os.Bundle;
 
 import com.androidsrc.snake_game.MainActivity;
+import com.androidsrc.snake_game.snakegame.SnakeCommBuffer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,6 +37,11 @@ class Serverlistenerthread extends Thread {
                     //data.putSerializable("Server_object_read", (PlayerInfo) serverObject);
                     //System.out.println(data);
                     System.out.println("Object read is - " + ((PlayerInfo) gameObject).username );
+                }
+                else if(gameObject instanceof SnakeCommBuffer) {
+                    //data.putSerializable("Server_object_read", (PlayerInfo) serverObject);
+                    //System.out.println(data);
+                    System.out.println("Object SnakeCommBuffer read is - " + ((SnakeCommBuffer) gameObject).velocity.getXSpeed());
                 }
             } catch (IOException e) {
                 e.printStackTrace();

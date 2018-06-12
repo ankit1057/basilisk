@@ -20,6 +20,8 @@ public class MainActivity extends Activity {
 
 	Serverhandler serverhandler;
 	TextView infoip;
+	public static String username;
+	public static int nusers;
 	public TextView msg;
 	Button startserver, startclient, sendtestdata, startgame;
 	Clienthandler myserver;
@@ -30,6 +32,8 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		username = "Test";
+		nusers = 2;
 		setContentView(R.layout.activity_main);
 		infoip = (TextView) findViewById(R.id.infoip);
 		msg = (TextView) findViewById(R.id.msg);
@@ -106,6 +110,8 @@ public class MainActivity extends Activity {
 				//setContentView(new SnakeGamePanel(MainActivity.this, server));
                 Intent i = new Intent(MainActivity.this, GameActivity.class);
                 i.putExtra("isServer", server);
+                i.putExtra("username", username);
+				i.putExtra("nusers", nusers);
                 startActivity(i);
 					/*PlayerInfo username1 = new PlayerInfo("Basilisk_game_player_1");
 					Serverhandler.sendToAll(username1);*/

@@ -41,7 +41,11 @@ public abstract class PositionedActor extends Actor {
 	public PointsXY getPoint() {
 		return pos;
 	}
-	
+
+	public void setPoint(PointsXY pos) {
+		this.pos = pos;
+	}
+
 	public Rect getRect() {
 		Rect rect = new Rect();
 		getRectF().round(rect);

@@ -12,6 +12,8 @@ import com.androidsrc.snake_game.R;
 
 public class GameActivity extends GameBaseActivity {
     public static boolean isServer;
+    public static String username;
+    public static int nusers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +25,14 @@ public class GameActivity extends GameBaseActivity {
         decorView.setSystemUiVisibility(uiOptions);
 
         Intent intent = getIntent();
-        isServer = intent.getExtras().getBoolean("isServer");
+        Bundle extras = intent.getExtras();
+        isServer = extras.getBoolean("isServer");
+        username = extras.getString("username");
 
         Bundle args = new Bundle();
         args.putBoolean("isServer", isServer);
+        args.putString("username", username);
+        args.putInt("nusers", nusers);
 
         if (savedInstanceState == null) {
             MainFragment mf = new MainFragment();
