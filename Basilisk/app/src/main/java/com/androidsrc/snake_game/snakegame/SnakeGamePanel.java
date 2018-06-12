@@ -68,7 +68,6 @@ public class SnakeGamePanel extends AbstractGamePanel {
 				snake.move();
 				if (apple.intersect(snake)) {
 					snake.grow();
-					snake2.grow();
 					score.earnPoints(50);
 					apple.reposition(this);
 				}
@@ -82,6 +81,12 @@ public class SnakeGamePanel extends AbstractGamePanel {
 					//client send the buffer here
 					//Clienthandler.sendToServer(buff);
 					//System.out.println("xfer_cl_snt");
+
+					if(enemies.size() > 0) {
+						snake2.tailPos = enemies.get(0).snakePos;
+						snake2.setPoint(enemies.get(0).nextPos);
+					}
+					//snake2.getVelocity(enemies.get(0).velocity);
 
 					//client wait for the processed data from server
 					//receive snakeServerBuffer here

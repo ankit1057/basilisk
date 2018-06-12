@@ -61,15 +61,31 @@ public class SnakeActor extends SimpleMovingActor {
 	}
 
 	public boolean checkBoundsCollision(AbstractGamePanel panel, ArrayList<SnakeCommBuffer> enemies) {
-		if (this.getX() < 0) {
+		int isnake, jpoint;
+		SnakeCommBuffer snakeNow;
+		int headX = this.getX();
+		int headY = this.getY();
+
+		if (headX < 0) {
 			return true;
-		} else if (this.getX() >= (panel.getWidth() - this.getWidth())) {
+		} else if (headX >= (panel.getWidth() - this.getWidth())) {
 			return true;
-		} else if (this.getY() < 0) {
+		} else if (headY < 0) {
 			return true;
-		} else if (this.getY() >= (panel.getHeight() - this.getHeight())) {
+		} else if (headY >= (panel.getHeight() - this.getHeight())) {
 			return true;
 		}
+
+		for (isnake = 0; isnake < enemies.size(); isnake++) {
+			snakeNow = enemies.get(isnake);
+			for (jpoint = 0; jpoint < snakeNow.snakePos.size(); jpoint++) {
+				if ((headX == snakeNow.snakePos.get(jpoint).x) &
+						(headY == snakeNow.snakePos.get(jpoint).y)) {
+					return true;
+				}
+			}
+		}
+
 		return false;
 	}
 
