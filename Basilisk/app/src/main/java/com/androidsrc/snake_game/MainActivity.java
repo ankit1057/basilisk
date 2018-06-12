@@ -4,16 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.androidsrc.snake_game.communication.Clienthandler;
+import com.androidsrc.snake_game.communication.ClientConnThread;
 import com.androidsrc.snake_game.communication.PlayerInfo;
 import com.androidsrc.snake_game.communication.Serverhandler;
 import com.androidsrc.snake_game.game.GameActivity;
-import com.androidsrc.snake_game.snakegame.SnakeGamePanel;
 
 
 public class MainActivity extends Activity {
@@ -24,7 +22,7 @@ public class MainActivity extends Activity {
 	public static int nusers;
 	public TextView msg;
 	Button startserver, startclient, sendtestdata, startgame;
-	Clienthandler myserver;
+	ClientConnThread myserver;
 	long size1 =0 ;
 	long size2 =0 ;
 	boolean server = false;
@@ -46,7 +44,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				try {
-					serverhandler = new Serverhandler(MainActivity.this);
+					serverhandler = new Serverhandler();
                     infoip.setText(serverhandler.getIpAddress()+":"+ serverhandler.getPort());
                     server = true;
 					/*PlayerInfo username1 = new PlayerInfo("Basilisk_game_player_1");
@@ -65,7 +63,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View arg0) {
 				if (!server) {
-					myserver = new Clienthandler(MainActivity.this, "192.168.1.3");
+					myserver = new ClientConnThread( "192.168.1.3");
 					/*PlayerInfo username1 = new PlayerInfo("Basilisk_game_player_1");
 					Serverhandler.sendToAll(username1);*/
 
@@ -89,7 +87,7 @@ public class MainActivity extends Activity {
 					}
 					else
 					{
-						Clienthandler.sendToServer(username1);
+						ClientConnThread.sendToServer(username1);
 						final int nbThreads = Thread.getAllStackTraces().keySet().size();
 						System.out.println("Number of threads now is : "+nbThreads);
 					}
@@ -133,7 +131,7 @@ public class MainActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 		Serverhandler.onDestroy();
-		Clienthandler.onDestroy();
+		ClientConnThread.onDestroy();
 	}
 
 	

@@ -10,7 +10,7 @@ import java.net.SocketException;
 import java.util.Enumeration;
 import java.util.HashMap;
 
-public class Clienthandler {
+public class ClientConnThread {
     static int numberofsockets = 1;
     MainActivity activity;
     boolean ServerOn;
@@ -23,8 +23,7 @@ public class Clienthandler {
     Object testmessage = "Hello from Client";
 
 
-    public Clienthandler(MainActivity activity, String ip) {
-        this.activity = activity;
+    public ClientConnThread(String ip) {
         dstAddress = ip;
         Thread clienthandler = new Thread(new clienthandlerthread());
         clienthandler.start();
@@ -67,16 +66,16 @@ public class Clienthandler {
                     while (ServerOn) {
                         if (clientthreadcount < 2) {
                             ClientsenderThread cliThread = new ClientsenderThread(clientsendersocket, testmessage);
-                            Clientlistenerthread cliThread2 = new Clientlistenerthread(clientsendersocket,activity);
+                            Clientlistenerthread cliThread2 = new Clientlistenerthread(clientsendersocket);
                             //Number of threads
                             clientthreadcount = 2;
                             final int nbThreads = Thread.getAllStackTraces().keySet().size();
-                            activity.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    activity.msg.append("\n Client thread created for:" + clientsendersocket.getInetAddress() + " Number of threads now : " + nbThreads);
-                                }
-                            });
+//                            activity.runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    activity.msg.append("\n Client thread created for:" + clientsendersocket.getInetAddress() + " Number of threads now : " + nbThreads);
+//                                }
+//                            });
                             cliThread.start();
                             cliThread2.start();
                         }

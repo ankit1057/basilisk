@@ -4,12 +4,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-import com.androidsrc.snake_game.communication.Clienthandler;
-import com.androidsrc.snake_game.communication.PlayerInfo;
 import com.androidsrc.snake_game.communication.Serverhandler;
 import com.androidsrc.snake_game.panels.AbstractGamePanel;
 
@@ -70,6 +67,7 @@ public class SnakeGamePanel extends AbstractGamePanel {
 					snake.grow();
 					score.earnPoints(50);
 					apple.reposition(this);
+					System.out.println("SnakeLenNow :" + snake.tailPos.size());
 				}
 			} else {
 				isUpdateIter = true; //for the next iteration
@@ -79,7 +77,7 @@ public class SnakeGamePanel extends AbstractGamePanel {
 					buff.nextPos = snake.getPoint();
 					buff.velocity = snake.getVelocity();
 					//client send the buffer here
-					//Clienthandler.sendToServer(buff);
+					//ClientConnThread.sendToServer(buff);
 					//System.out.println("xfer_cl_snt");
 
 					if(enemies.size() > 0) {
@@ -102,7 +100,7 @@ public class SnakeGamePanel extends AbstractGamePanel {
 					//bundle.putSerializable("buffer",buff.nextPosX);
 					System.out.println("xfer_sr_snt");
 					//PlayerInfo xp = new PlayerInfo("send2");
-					Serverhandler.sendToAll(snake); //TODO: Change it back to buff
+					Serverhandler.sendToAll(buff); //TODO: Change it back to buff
 					//server
 				}
 

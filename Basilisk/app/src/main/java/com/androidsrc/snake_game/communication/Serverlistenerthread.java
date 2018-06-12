@@ -18,9 +18,8 @@ class Serverlistenerthread extends Thread {
         super();
     }
 
-    Serverlistenerthread(Socket s, MainActivity activity) {
+    Serverlistenerthread(Socket s) {
         myclientSocket = s;
-        this.activity = activity;
     }
 
     public void run() {

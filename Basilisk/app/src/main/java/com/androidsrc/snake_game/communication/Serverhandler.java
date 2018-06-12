@@ -26,8 +26,7 @@ public class Serverhandler {
 	static Object testmessage = "Hi from snake_game";
 
 
-	public Serverhandler(MainActivity activity) {
-		this.activity = activity;
+	public Serverhandler() {
 		Thread socketServerThread = new Thread(new SocketServerThread());
 		socketServerThread.start();
 	}
@@ -76,21 +75,21 @@ public class Serverhandler {
 						if(!allplayersjoined) //check to see if all the clients have connected
 						{
 							username = username + "1";
-							Serverlistenerthread serverthread = new Serverlistenerthread(clientSocket,activity);
+							Serverlistenerthread serverthread = new Serverlistenerthread(clientSocket);
 							serverthread.start();
-							Serversenderthread serverthread2 = new Serversenderthread(clientSocket,activity, testmessage);
+							Serversenderthread serverthread2 = new Serversenderthread(clientSocket, testmessage);
 							serverthread2.start();
 							//TODO: sockethashmap can store the player names. null can be replaced with playernames
 							clientsockethashmap.put(clientSocket,username );
 							//Number of threads 
 							final int nbThreads = Thread.getAllStackTraces().keySet().size();
-							activity.runOnUiThread(new Runnable() {
-
-								@Override
-								public void run() {
-									activity.msg.append("\n Socket accepted from client number :" + clientSocket.getInetAddress() + "Number of threads now : " + nbThreads);
-								}
-							});
+//							activity.runOnUiThread(new Runnable() {
+//
+//								@Override
+//								public void run() {
+//									activity.msg.append("\n Socket accepted from client number :" + clientSocket.getInetAddress() + "Number of threads now : " + nbThreads);
+//								}
+//							});
 							if (clientsockethashmap.size() == num_players) {
 								allplayersjoined = true;
 							}
@@ -127,7 +126,7 @@ public class Serverhandler {
 		while (socketIterator.hasNext()) {
 			socket = socketIterator.next();
 			if (Serverhandler.clientsockethashmap.get(socket) != null) {
-				Serversenderthread sendtoall = new Serversenderthread(socket,activity, message);
+				Serversenderthread sendtoall = new Serversenderthread(socket,message);
 				sendtoall.start();
 			}
 		}

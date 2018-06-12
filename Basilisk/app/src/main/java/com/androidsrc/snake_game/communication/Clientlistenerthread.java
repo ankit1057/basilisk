@@ -26,10 +26,9 @@ class Clientlistenerthread extends Thread
         super();
     }
 
-    Clientlistenerthread(Socket s, MainActivity activity)
+    Clientlistenerthread(Socket s)
     {
         myserverSocket = s;
-        this.activity = activity;
     }
 
     @Override
