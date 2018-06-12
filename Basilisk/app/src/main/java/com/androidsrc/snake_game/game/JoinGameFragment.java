@@ -47,9 +47,8 @@ public class JoinGameFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.activity_join_game_fragment, container, false);
         Button joinGame = (Button) rootView.findViewById(R.id.joinGame);
         ServerIP = (TextView) rootView.findViewById(R.id.gameName);
-        userName = (TextView) rootView.findViewById(R.id.userName);
-        userName.setText(MainFragment.userName.getText());
-
+        userName = (TextView) rootView.findViewById(R.id.welcometext);
+        userName.setText("WELCOME "+MainFragment.userName.getText());
         final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         joinGame.setOnClickListener(new View.OnClickListener() {
             @Override

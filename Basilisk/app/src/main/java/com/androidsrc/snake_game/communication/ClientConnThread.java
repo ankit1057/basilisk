@@ -106,7 +106,7 @@ public class ClientConnThread {
                             .nextElement();
 
                     if (inetAddress.isSiteLocalAddress()) {
-                        ip += "Serverhandler running at : "
+                        ip += "ServerConnThread running at : "
                                 + inetAddress.getHostAddress();
                     }
                 }

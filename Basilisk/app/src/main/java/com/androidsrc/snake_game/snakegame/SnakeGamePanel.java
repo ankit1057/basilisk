@@ -7,7 +7,7 @@ import android.graphics.Paint;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-import com.androidsrc.snake_game.communication.Serverhandler;
+import com.androidsrc.snake_game.communication.ServerConnThread;
 import com.androidsrc.snake_game.panels.AbstractGamePanel;
 
 import java.util.ArrayList;
@@ -100,7 +100,7 @@ public class SnakeGamePanel extends AbstractGamePanel {
 					//bundle.putSerializable("buffer",buff.nextPosX);
 					System.out.println("xfer_sr_snt");
 					//PlayerInfo xp = new PlayerInfo("send2");
-					Serverhandler.sendToAll(buff); //TODO: Change it back to buff
+					ServerConnThread.sendToAll(buff); //TODO: Change it back to buff
 					//server
 				}
 

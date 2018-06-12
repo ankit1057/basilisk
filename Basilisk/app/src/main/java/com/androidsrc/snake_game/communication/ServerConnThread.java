@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 
-public class Serverhandler {
+public class ServerConnThread {
 	static MainActivity activity;
 	ServerSocket myserverSocket;
 	static final int socketServerPORT = 8080;
@@ -26,7 +26,7 @@ public class Serverhandler {
 	static Object testmessage = "Hi from snake_game";
 
 
-	public Serverhandler() {
+	public ServerConnThread() {
 		Thread socketServerThread = new Thread(new SocketServerThread());
 		socketServerThread.start();
 	}
@@ -37,11 +37,11 @@ public class Serverhandler {
 
 	//TODO: Ondestroy kill all the sockets connected to the server
 	public static void onDestroy() {
-		Iterator<Socket> socketIterator = Serverhandler.clientsockethashmap.keySet().iterator();
+		Iterator<Socket> socketIterator = ServerConnThread.clientsockethashmap.keySet().iterator();
 		Socket socket;
 		while (socketIterator.hasNext()) {
 			socket = socketIterator.next();
-			if (Serverhandler.clientsockethashmap.get(socket) != null) {
+			if (ServerConnThread.clientsockethashmap.get(socket) != null) {
 				try{
 					socket.close();
 				}
@@ -106,7 +106,7 @@ public class Serverhandler {
 				{
 					myserverSocket.close();
 					ServerOn = false;
-					System.out.println("Serverhandler Stopped");
+					System.out.println("ServerConnThread Stopped");
 				}
 				catch(Exception ioe)
 				{
@@ -121,11 +121,11 @@ public class Serverhandler {
 	}
 
 	public static void sendToAll(Object message) {
-		Iterator<Socket> socketIterator = Serverhandler.clientsockethashmap.keySet().iterator();
+		Iterator<Socket> socketIterator = ServerConnThread.clientsockethashmap.keySet().iterator();
 		Socket socket;
 		while (socketIterator.hasNext()) {
 			socket = socketIterator.next();
-			if (Serverhandler.clientsockethashmap.get(socket) != null) {
+			if (ServerConnThread.clientsockethashmap.get(socket) != null) {
 				Serversenderthread sendtoall = new Serversenderthread(socket,message);
 				sendtoall.start();
 			}
@@ -147,7 +147,7 @@ public class Serverhandler {
 							.nextElement();
 
 					if (inetAddress.isSiteLocalAddress()) {
-						ip += "Serverhandler running at : "
+						ip += "ServerConnThread running at : "
 								+ inetAddress.getHostAddress();
 					}
 				}

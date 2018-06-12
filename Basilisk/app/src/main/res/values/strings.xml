@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Server</string>
+    <string name="app_name">Basilisk</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
@@ -11,5 +11,6 @@
 
     <string name="info_content">Thank you for choosing Basilisk. We hope you will have a pleasant experience. This app has been developed by BarathKumar Ramaswami (<a href="mailto:rbarath1993@gmail.com">rbarath1993@gmail.com</a>) and GokulPrasath Nallasami (<a href="mailto:gokulprasath7c@gmail.com">gokulprasath7c@gmail.com</a>)\n\nThe way this app works has been described here. One of the player acts as host of the game and this player MUST have its hotspot on before the start of the app. The other players need to join to this hotspot before starting the game. The host player sees the "Host game" screen while the other players meet with the "Join game" screen. The host enters the number of players in order to host the game. This number is crucial to restrict the number of players in the game (Not fully explored yet but tested with 2). So, if the total number of players are 3 (including the host), then the host must enter 2 in the "Number of players" field.\n\nOnce the game begins after all the players and joined the game, the host gets the option to start the game.\n\nWe do thoroughly test our apps, but it is impossible to test every phone/option combination. If you feel something is not working correctly with your app, please contact us directly at any of the aforementioned email address so that we can help you or fix a bug and get a new release out for all to benefit. And if you love our app, please recommend it to a friend. Thank you!​</string>
     <string name="title_activity_game_fragment">GameFragment</string>
+    <string name="Basilisk">Basilisk</string>
 
 </resources>

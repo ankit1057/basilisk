@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorPrimary"
     tools:context=".game.JoinGameFragment">
 
     <View
@@ -13,7 +14,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:alpha="0.3"
-        android:background="@color/black_overlay" />
+        android:background="?attr/colorPrimary" />
 
     <Button
         android:id="@+id/joinGame"
@@ -23,27 +24,19 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="124dp"
         android:text="Join Game"
-        android:textAppearance="@style/TextAppearance.AppCompat" />
-
-    <TextView
-        android:id="@+id/userName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/welcometext"
-        android:layout_toEndOf="@+id/welcometext"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textStyle="bold" />
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/welcometext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/joingame_text"
-        android:layout_marginTop="115dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="123dp"
         android:text="WELCOME"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="18sp"
+        android:textSize="24sp"
         android:textStyle="bold" />
 
     <TextView
@@ -60,13 +53,16 @@
 
     <EditText
         android:id="@+id/gameName"
-        android:layout_width="160dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="209dp"
         android:ems="10"
         android:hint="Enter Server IP"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        tools:textColor="@android:color/white" />
 
 </RelativeLayout>

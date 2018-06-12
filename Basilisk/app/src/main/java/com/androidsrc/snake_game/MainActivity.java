@@ -10,13 +10,13 @@ import android.widget.TextView;
 
 import com.androidsrc.snake_game.communication.ClientConnThread;
 import com.androidsrc.snake_game.communication.PlayerInfo;
-import com.androidsrc.snake_game.communication.Serverhandler;
+import com.androidsrc.snake_game.communication.ServerConnThread;
 import com.androidsrc.snake_game.game.GameActivity;
 
 
 public class MainActivity extends Activity {
 
-	Serverhandler serverhandler;
+	ServerConnThread serverConnThread;
 	TextView infoip;
 	public static String username;
 	public static int nusers;
@@ -44,11 +44,11 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				try {
-					serverhandler = new Serverhandler();
-                    infoip.setText(serverhandler.getIpAddress()+":"+ serverhandler.getPort());
+					serverConnThread = new ServerConnThread();
+                    infoip.setText(serverConnThread.getIpAddress()+":"+ serverConnThread.getPort());
                     server = true;
 					/*PlayerInfo username1 = new PlayerInfo("Basilisk_game_player_1");
-					Serverhandler.sendToAll(username1);*/
+					ServerConnThread.sendToAll(username1);*/
 				}
 				catch(Exception e)
 				{
@@ -65,7 +65,7 @@ public class MainActivity extends Activity {
 				if (!server) {
 					myserver = new ClientConnThread( "192.168.1.3");
 					/*PlayerInfo username1 = new PlayerInfo("Basilisk_game_player_1");
-					Serverhandler.sendToAll(username1);*/
+					ServerConnThread.sendToAll(username1);*/
 
 				}
 			}
@@ -83,7 +83,7 @@ public class MainActivity extends Activity {
 					System.out.println(size2);
 					System.out.println("Size difference ="+ (size1 - size2));
 					if(server) {
-						Serverhandler.sendToAll(username1);
+						ServerConnThread.sendToAll(username1);
 					}
 					else
 					{
@@ -112,7 +112,7 @@ public class MainActivity extends Activity {
 				i.putExtra("nusers", nusers);
                 startActivity(i);
 					/*PlayerInfo username1 = new PlayerInfo("Basilisk_game_player_1");
-					Serverhandler.sendToAll(username1);*/
+					ServerConnThread.sendToAll(username1);*/
 
 
 			}
@@ -130,7 +130,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		Serverhandler.onDestroy();
+		ServerConnThread.onDestroy();
 		ClientConnThread.onDestroy();
 	}
 

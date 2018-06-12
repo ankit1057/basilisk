@@ -3,21 +3,21 @@ package com.androidsrc.snake_game.game;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidsrc.snake_game.R;
-import com.androidsrc.snake_game.communication.Serverhandler;
+import com.androidsrc.snake_game.communication.ServerConnThread;
 
 
 public class HostFragment extends Fragment {
-    public static Serverhandler serverHandler;
+    public static ServerConnThread serverHandler;
     public static EditText gameName;
     public EditText numberOfPlayers;
     public static int numberPlayers;
@@ -28,7 +28,7 @@ public class HostFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Start the server Connection thread to listen for client connections.
-        serverHandler = new Serverhandler();
+        serverHandler = new ServerConnThread();
         ipaddr = serverHandler.getIpAddress();
     }
 
@@ -43,6 +43,8 @@ public class HostFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_host_game, container, false);
         Button startGame = (Button) rootView.findViewById(R.id.startGame);
+        TextView serverip = (TextView) rootView.findViewById(R.id.server_ip_addr);
+        serverip.setText(""+ ipaddr);
         gameName = (EditText) rootView.findViewById(R.id.gameName);
         numberOfPlayers = (EditText) rootView.findViewById(R.id.numberOfPlayers);
         final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
