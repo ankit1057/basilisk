@@ -25,12 +25,7 @@ public class StartGameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_game_fragment, container, false);
-
-        sgp = new SnakeGamePanel(MainFragment.userName.getText().toString(), 2, act, MainFragment.isServer);
-        MainFragment.sgp = sgp;
+        sgp = MainFragment.sgp;
         return sgp;
     }
-
-
-
 }

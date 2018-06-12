@@ -54,8 +54,8 @@ public class MainFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.activity_snake, container, false);
         //currContext = getActivity().getApplicationContext();
         //sgp = new SnakeGamePanel(act, isServer);
-        /*if (clientHandler == null) {
-            clientHandler = new ClientHandler();
+        /*if (clientConnTd == null) {
+            clientConnTd = new ClientHandler();
         }*/
         Button hostGame = (Button) rootView.findViewById(R.id.hostgame);
         Button joinGame = (Button) rootView.findViewById(R.id.joingame);
@@ -84,6 +84,7 @@ public class MainFragment extends Fragment {
                             @Override
                             public void onClick(View view) {
                                 if (userName.getText() != null && userName.getText().toString().trim().length() > 0) {
+                                    sgp = new SnakeGamePanel(userName.getText().toString(), act, isServer);
                                     fragmentManager.beginTransaction()
                                             .replace(R.id.container, new HostFragment()).addToBackStack(HostFragment.class.getName())
                                             .commit();

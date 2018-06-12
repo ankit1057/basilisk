@@ -28,7 +28,7 @@ public class HostFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Start the server Connection thread to listen for client connections.
-        serverHandler = new ServerConnThread();
+        serverHandler = new ServerConnThread((Context) act);
         ipaddr = serverHandler.getIpAddress();
     }
 

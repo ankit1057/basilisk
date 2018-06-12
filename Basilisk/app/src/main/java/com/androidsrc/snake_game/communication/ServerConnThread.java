@@ -1,7 +1,10 @@
 package com.androidsrc.snake_game.communication;
 
 
+import android.content.Context;
+
 import com.androidsrc.snake_game.MainActivity;
+import com.androidsrc.snake_game.R;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -23,12 +26,14 @@ public class ServerConnThread {
 	static int num_players = 3;
 	public String username = "player1";
 	public static HashMap<Socket , String> clientsockethashmap = new HashMap();
-	static Object testmessage = "Hi from snake_game";
+	static Object testmessage;
+	public static Context context;
 
 
-	public ServerConnThread() {
+	public ServerConnThread(Context mycontext) {
 		Thread socketServerThread = new Thread(new SocketServerThread());
 		socketServerThread.start();
+		context = mycontext;
 	}
 
 	public int getPort() {
@@ -77,6 +82,7 @@ public class ServerConnThread {
 							username = username + "1";
 							Serverlistenerthread serverthread = new Serverlistenerthread(clientSocket);
 							serverthread.start();
+							testmessage = context.getString(R.string.clientConnAck);
 							Serversenderthread serverthread2 = new Serversenderthread(clientSocket, testmessage);
 							serverthread2.start();
 							//TODO: sockethashmap can store the player names. null can be replaced with playernames

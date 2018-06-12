@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				try {
-					serverConnThread = new ServerConnThread();
+					serverConnThread = new ServerConnThread(MainActivity.this);
                     infoip.setText(serverConnThread.getIpAddress()+":"+ serverConnThread.getPort());
                     server = true;
 					/*PlayerInfo username1 = new PlayerInfo("Basilisk_game_player_1");
@@ -63,7 +63,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View arg0) {
 				if (!server) {
-					myserver = new ClientConnThread( "192.168.1.3");
+					myserver = new ClientConnThread(MainActivity.this,  "192.168.1.3");
 					/*PlayerInfo username1 = new PlayerInfo("Basilisk_game_player_1");
 					ServerConnThread.sendToAll(username1);*/
 

@@ -1,6 +1,9 @@
 package com.androidsrc.snake_game.communication;
 
+import android.content.Context;
+
 import com.androidsrc.snake_game.MainActivity;
+import com.androidsrc.snake_game.R;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -20,13 +23,15 @@ public class ClientConnThread {
     static Socket clientsendersocket;
     static HashMap<String, Socket> sockethashmap = new HashMap<String, Socket>();
     static HashMap<Socket,Boolean> activesocketsinfo = new HashMap<Socket, Boolean>();
-    Object testmessage = "Hello from Client";
+    Object testmessage;
+    static Context context;
 
 
-    public ClientConnThread(String ip) {
+    public ClientConnThread(Context mycontext, String ip) {
         dstAddress = ip;
         Thread clienthandler = new Thread(new clienthandlerthread());
         clienthandler.start();
+        context = mycontext;
     }
 
     public int getPort() {
@@ -65,8 +70,9 @@ public class ClientConnThread {
                     activesocketsinfo.put(clientsendersocket, ServerOn);
                     while (ServerOn) {
                         if (clientthreadcount < 2) {
+                            testmessage = context.getString(R.string.clientConnReq);
                             ClientsenderThread cliThread = new ClientsenderThread(clientsendersocket, testmessage);
-                            Clientlistenerthread cliThread2 = new Clientlistenerthread(clientsendersocket);
+                            Clientlistenerthread cliThread2 = new Clientlistenerthread(context, clientsendersocket);
                             //Number of threads
                             clientthreadcount = 2;
                             final int nbThreads = Thread.getAllStackTraces().keySet().size();

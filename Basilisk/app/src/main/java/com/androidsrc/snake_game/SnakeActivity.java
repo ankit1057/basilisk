@@ -12,6 +12,6 @@ public class SnakeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_snake);
-        setContentView(new SnakeGamePanel("SnakeActivity", 2, SnakeActivity.this, false));
+        setContentView(new SnakeGamePanel("SnakeActivity", SnakeActivity.this, false));
     }
 }

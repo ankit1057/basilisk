@@ -21,34 +21,34 @@ public class SnakeGamePanel extends AbstractGamePanel {
     public static String username;
 	public static int nusers;
 	public static ArrayList<SnakeCommBuffer> enemies; //used to store details about other snakes
-    private static SnakeActor snake, snake2;
+    public static SnakeActor snake, snake2;
+	public static ArrayList<SnakeActor> enemysnakes;
     private static AppleActor apple;
     private static ScoreBoard score;
     private static SnakeCommBuffer buff;
     private static boolean isPaused = false;
 
-    //public static ClientHandler clientHandler;
+    //public static ClientHandler clientConnTd;
 
-	public SnakeGamePanel(String uname, int nuser, Context context, boolean isServ) {
+	public SnakeGamePanel(String uname, Context context, boolean isServ) {
 		super(context);
 		isServer = isServ;
 		username = uname;
-		nusers = nuser;
 		enemies = new ArrayList<SnakeCommBuffer>();
 	}
 
 
 	@Override
 	public void onStart() {
-		snake = new SnakeActor(100, 100);
-		snake2 = new SnakeActor(300, 300);
+		//snake = new SnakeActor(100, 100);
+		snake2 = new SnakeActor(300, 300, username, 1);
 		apple = new AppleActor(300, 50);
 		score = new ScoreBoard(this);
 		buff = new SnakeCommBuffer(username, snake.tailPos, snake.getPoint(),
 		snake.getVelocity());
 //		if (!isServer) {
-//            if (clientHandler == null) {
-//                clientHandler = new ClientHandler();
+//            if (clientConnTd == null) {
+//                clientConnTd = new ClientHandler();
 //            }
 //        }
 	}
@@ -151,6 +151,10 @@ public class SnakeGamePanel extends AbstractGamePanel {
 			return true;
 		}
 		return false;
+	}
+
+	public void serverUpdateNoPlayers(int nuser) {
+		nusers = nuser;
 	}
 
     public void clientUpdate(SnakeCommBuffer rxbuff) {

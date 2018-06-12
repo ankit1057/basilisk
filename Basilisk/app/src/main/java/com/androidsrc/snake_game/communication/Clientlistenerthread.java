@@ -1,8 +1,13 @@
 package com.androidsrc.snake_game.communication;
 
 import android.app.Instrumentation;
+import android.content.Context;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
+import android.widget.Toast;
 
 import com.androidsrc.snake_game.MainActivity;
 
@@ -10,6 +15,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+
+import com.androidsrc.snake_game.R;
+import com.androidsrc.snake_game.game.JoinGameFragment;
 import com.androidsrc.snake_game.game.MainFragment;
 import com.androidsrc.snake_game.snakegame.SnakeCommBuffer;
 
@@ -19,15 +27,17 @@ class Clientlistenerthread extends Thread
     MainActivity activity;
     static Boolean ServerOn;
     Instrumentation instrumentation;
+    Context context;
     //SnakeGamePanel clientsnake;
 
-    public Clientlistenerthread()
+    public Clientlistenerthread(Context mycontext)
     {
         super();
     }
 
-    Clientlistenerthread(Socket s)
+    Clientlistenerthread(Context mycontext, Socket s)
     {
+        context = mycontext;
         myserverSocket = s;
     }
 
@@ -48,7 +58,7 @@ class Clientlistenerthread extends Thread
                         System.out.println("Object read is - " + ((PlayerInfo) serverObject).username );
                         //System.out.println("Object read is - " + ((PlayerInfo) serverObject).username);
                     }
-                    if(serverObject instanceof SnakeCommBuffer) {
+                    else if(serverObject instanceof SnakeCommBuffer) {
                         //data.putSerializable("Server_object_read", (PlayerInfo) serverObject);
                         //System.out.println(data);
                         System.out.println("xfer_cl_rx_data");
@@ -64,7 +74,7 @@ class Clientlistenerthread extends Thread
                         //clientsnake.clientUpdate((SnakeCommBuffer)serverObject);
                         //System.out.println("Object read is - " + ((PlayerInfo) serverObject).username);
                     }
-                    if(serverObject instanceof Bundle) {
+                    else if(serverObject instanceof Bundle) {
                         //data.putSerializable("Server_object_read", (PlayerInfo) serverObject);
                         //System.out.println(data);
                         SnakeCommBuffer buff = (SnakeCommBuffer)((Bundle) serverObject).getSerializable("buffer");
@@ -72,6 +82,23 @@ class Clientlistenerthread extends Thread
                         System.out.println("Object read is - " + buff.nextPos.x
                                 + buff.nextPos.y );
                         //System.out.println("Object read is - " + ((PlayerInfo) serverObject).username);
+                    }
+                    else if(serverObject instanceof String) {
+                        final String message = (String) serverObject;
+
+                        //TODO: check the received string before processing
+                        if(message.equals(context.getString(R.string.clientConnAck))) {
+                            JoinGameFragment.isClientConnected = true;
+                        }
+
+                        //TODO: Remove this later
+                        Handler handler = new Handler(Looper.getMainLooper());
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                            }
+                        });
                     }
 
                 }

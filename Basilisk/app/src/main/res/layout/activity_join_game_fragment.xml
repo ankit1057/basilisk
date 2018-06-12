@@ -23,7 +23,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="124dp"
-        android:text="Join Game"
+        android:text="Connect"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="24sp" />
 
@@ -38,6 +38,18 @@
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="24sp"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/ConStatusTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="210dp"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="24sp"
+        android:textStyle="italic" />
 
     <TextView
         android:id="@+id/joingame_text"
@@ -61,6 +73,7 @@
         android:ems="10"
         android:hint="Enter Server IP"
         android:inputType="textPersonName"
+        android:text="192.168.43.1"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         tools:textColor="@android:color/white" />

@@ -19,18 +19,33 @@ public class SnakeActor extends SimpleMovingActor {
 	public static final int DRAW_SIZE = 25;
 	public static final int STEP = 25;
 	public static ArrayList<PointsXY> tailPos;
+	public static int Colour;
+	public static String userName; //changes for each snake!!
 
-	public SnakeActor(int x, int y) {
+
+	public SnakeActor(int x, int y, String uname, int userID) {
 		super(x, y, DRAW_SIZE, DRAW_SIZE);
 		getVelocity().stop().setXDirection(Velocity.DIRECTION_RIGHT).setXSpeed(STEP);
 		tailPos = new ArrayList<PointsXY>();
 		tailPos.add(new PointsXY(x - this.getWidth(), y));
 		tailPos.add(new PointsXY(x - this.getWidth() * 2, y));
+		userName = uname;
+
+		//TODO: Max colour 5, assuming max players 5 else others will have white
+		switch (userID) {
+			case 0: Colour = Color.GREEN; break;
+			case 1: Colour = Color.YELLOW; break;
+			case 2: Colour = Color.BLUE; break;
+			case 3: Colour = Color.MAGENTA; break;
+			case 4: Colour = Color.CYAN; break;
+			default:Colour = Color.WHITE;
+
+		}
 	}
 
 	@Override
 	public void stylePaint(Paint p) {
-		p.setColor(Color.GREEN);
+		p.setColor(Colour);
 		p.setStyle(Style.FILL);
 	}
 

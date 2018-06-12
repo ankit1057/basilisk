@@ -28,4 +28,8 @@ public abstract class SimpleMovingActor extends PositionedActor {
 	public Velocity getVelocity() {
 		return velocity;
 	}
+
+	public void setVelocity(Velocity velocity) {
+		this.velocity = velocity;
+	}
 }
