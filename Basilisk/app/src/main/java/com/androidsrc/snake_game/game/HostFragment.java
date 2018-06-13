@@ -70,7 +70,7 @@ public class HostFragment extends Fragment {
                         Toast.makeText(getActivity(), "Maximum 5 players allowed ", Toast.LENGTH_SHORT).show();
                     } else {
                         //serverConTd.start();
-                        if(isAllPlayersConnected) {
+                        if(serverConTd.allplayersjoined) {
                             //TODO: initialize the enemies and enemies with others and start clients
                             initializeGame();
                             StartGameFragment gameFragment = new StartGameFragment();

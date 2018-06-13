@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class SnakeActor extends SimpleMovingActor {
 	public static final int DRAW_SIZE = 25;
 	public static final int STEP = 25;
-	public static ArrayList<PointsXY> tailPos;
+	public ArrayList<PointsXY> tailPos;
 	public static String userName; //changes for each snake!!
 	public static int userID;
 	private int colour;
@@ -92,7 +92,7 @@ public class SnakeActor extends SimpleMovingActor {
 		} else if (headY >= (panel.getHeight() - this.getHeight())) {
 			return true;
 		}
-
+		System.out.println("checkboundsize"+enemies.size());
 		for (isnake = 0; isnake < enemies.size(); isnake++) {
 			if ((headX == enemies.get(isnake).x) &
 					(headY == enemies.get(isnake).y)) {
