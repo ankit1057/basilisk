@@ -55,15 +55,15 @@ class Clientlistenerthread extends Thread
                     if(serverObject instanceof PlayerInfo) {
                         //data.putSerializable("Server_object_read", (PlayerInfo) serverObject);
                         //System.out.println(data);
-                        System.out.println("Object read is - " + ((PlayerInfo) serverObject).username );
+                        //System.out.println("Object read is - " + ((PlayerInfo) serverObject).username );
                         //System.out.println("Object read is - " + ((PlayerInfo) serverObject).username);
                     }
                     else if(serverObject instanceof SnakeCommBuffer) {
                         //data.putSerializable("Server_object_read", (PlayerInfo) serverObject);
                         //System.out.println(data);
-                        System.out.println("xfer_cl_rx_data");
-                        System.out.println("Object read is - " + ((SnakeCommBuffer) serverObject).nextPos.x
-                                + ((SnakeCommBuffer) serverObject).nextPos.y );
+                        //System.out.println("xfer_cl_rx_data");
+                        //System.out.println("Object read is - " + ((SnakeCommBuffer) serverObject).nextPos.x
+                        //        + ((SnakeCommBuffer) serverObject).nextPos.y );
                         data.putSerializable(MainFragment.constants.DATA_KEY, (SnakeCommBuffer)serverObject);
 
                         Message msg = new Message();
@@ -78,9 +78,9 @@ class Clientlistenerthread extends Thread
                         //data.putSerializable("Server_object_read", (PlayerInfo) serverObject);
                         //System.out.println(data);
                         SnakeCommBuffer buff = (SnakeCommBuffer)((Bundle) serverObject).getSerializable("buffer");
-                        System.out.println("xfer_cl_rx_data");
-                        System.out.println("Object read is - " + buff.nextPos.x
-                                + buff.nextPos.y );
+                        //System.out.println("xfer_cl_rx_data");
+                        //System.out.println("Object read is - " + buff.nextPos.x
+                        //        + buff.nextPos.y );
                         //System.out.println("Object read is - " + ((PlayerInfo) serverObject).username);
                     }
                     else if(serverObject instanceof String) {

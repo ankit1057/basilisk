@@ -43,12 +43,12 @@ public class SnakeGamePanel extends AbstractGamePanel {
 
 	@Override
 	public void onStart() {
+//
+//		if(isServer) {
+//			snake = new SnakeActor(100, 100, username, MainFragment.constants.colorLUT.get(2));
+//		}
 
-		if(isServer) {
-			snake = new SnakeActor(100, 100, username, MainFragment.constants.colorLUT.get(2));
-		}
-
-		snake2 = new SnakeActor(300, 300, username, MainFragment.constants.colorLUT.get(3));
+		snake2 = new SnakeActor(300, 300, username, 5, MainFragment.constants.colorLUT.get(5));
 		apple = new AppleActor(300, 50, MainFragment.constants.colorLUT.get(4));
 		score = new ScoreBoard(this);
 		buff = new SnakeCommBuffer(username, snake.tailPos, snake.getPoint(),
@@ -75,7 +75,7 @@ public class SnakeGamePanel extends AbstractGamePanel {
 					snake.grow();
 					score.earnPoints(50);
 					apple.reposition(this);
-					System.out.println("SnakeLenNow :" + snake.tailPos.size());
+					//System.out.println("SnakeLenNow :" + snake.tailPos.size());
 				}
 			} else {
 				isUpdateIter = true; //for the next iteration
@@ -106,7 +106,7 @@ public class SnakeGamePanel extends AbstractGamePanel {
 					buff.velocity = snake.getVelocity();
 					//Bundle bundle = new Bundle();
 					//bundle.putSerializable("buffer",buff.nextPosX);
-					System.out.println("xfer_sr_snt");
+					//System.out.println("xfer_sr_snt");
 					//PlayerInfo xp = new PlayerInfo("send2");
 					ServerConnThread.sendToAll(buff); //TODO: Change it back to buff
 					//server

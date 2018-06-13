@@ -136,7 +136,7 @@ public class MainFragment extends Fragment {
     }
 
     public boolean onTouch(View v, MotionEvent event) {
-        System.out.println("MainFragmentTouchActivity");
+        //System.out.println("MainFragmentTouchActivity");
         return true;
     }
     //TODO: Username data should be sent to snakegame panel constructor when starting the game. Function to access it is here.

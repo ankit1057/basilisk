@@ -32,6 +32,7 @@ public class HostFragment extends Fragment {
     public static boolean isAllPlayersConnected = false;
     public static ServerHandler serverHandler;
     public static ArrayList<PlayerInfo> deviceList = new ArrayList();
+    public static int userID;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class HostFragment extends Fragment {
         ipaddr = serverConTd.getIpAddress();
         isAllPlayersConnected = false;
         serverHandler = new ServerHandler();
+        userID = MainFragment.constants.SERVER_USER_ID;
     }
 
     @Override
@@ -99,8 +101,7 @@ public class HostFragment extends Fragment {
         //Initialize server's own snake
         String unmae = MainFragment.userName.getText().toString();
         int uid = MainFragment.constants.SERVER_USER_ID;
-        tsnake = new SnakeActor(100, 100, unmae, MainFragment.constants.colorLUT.get(uid));
-        tsnake.userID = uid;
+        tsnake = new SnakeActor(100, 100, unmae, uid, MainFragment.constants.colorLUT.get(uid));
         MainFragment.sgp.snake = tsnake;
 
         //Send server snake to all
@@ -108,37 +109,42 @@ public class HostFragment extends Fragment {
         tbuff = new SnakeCommBuffer(unmae, tsnake.tailPos, tsnake.getPoint(), tsnake.getVelocity());
         tbuff.setUserID(uid);
         ServerConnThread.sendToAll(tbuff);
+        tbuff = null;
 
         //Get details from device list and initialize enemy snake and send to all
         int offset = 200;
         for(int i=0; i < deviceList.size(); i++) {
-            unmae = deviceList.get(i).username;
+            String tunmae = deviceList.get(i).username;
             uid = deviceList.get(i).userid;
-            tsnake = new SnakeActor((offset + i*100), (offset + i*100), unmae, MainFragment.constants.colorLUT.get(uid));
-            tsnake.userID = uid;
-            enemysnakes.add(tsnake);
+            enemysnakes.add(new SnakeActor((offset + i*100), (offset + i*100), tunmae,
+                    uid, MainFragment.constants.colorLUT.get(uid)));
+            SnakeActor zsnake = enemysnakes.get(i);
+
+            tbuff = new SnakeCommBuffer(tunmae, zsnake.tailPos, zsnake.getPoint(), zsnake.getVelocity());
 
             //update buff and send to all
-            tbuff.username = unmae;
-            tbuff.snakePos = tsnake.tailPos;
-            tbuff.nextPos = tsnake.getPoint();
-            tbuff.velocity = tsnake.getVelocity();
+            //tbuff.username = tunmae;
+            //tbuff.snakePos = zsnake.tailPos;
+            //tbuff.nextPos = zsnake.getPoint();
+            //tbuff.velocity = zsnake.getVelocity();
             tbuff.userID = uid;
-            ServerConnThread.sendToAll(tbuff);
+            ServerConnThread.sendToAll((Object) tbuff);
+            ServerConnThread.sendToClient((Object) tbuff); //TODO: remove this later pls!
+            tbuff = null;
         }
 
         //send to client about its own start data - this will enable the client to join the game
-        for(int i=0; i < enemysnakes.size(); i++) {
-            tsnake = enemysnakes.get(i);
-
-            //update buff and send to all
-            tbuff.username = tsnake.userName;
-            tbuff.snakePos = tsnake.tailPos;
-            tbuff.nextPos = tsnake.getPoint();
-            tbuff.velocity = tsnake.getVelocity();
-            tbuff.userID = tsnake.userID;
-            ServerConnThread.sendToClient(tbuff);
-        }
+//        for(int i=0; i < enemysnakes.size(); i++) {
+//            SnakeActor ysnake = enemysnakes.get(i);
+//
+//            //update buff and send to all
+//            tbuff.username = ysnake.userName;
+//            tbuff.snakePos = ysnake.tailPos;
+//            tbuff.nextPos = ysnake.getPoint();
+//            tbuff.velocity = ysnake.getVelocity();
+//            tbuff.userID = ysnake.userID;
+//            ServerConnThread.sendToClient(tbuff);
+//        }
 
     }
 

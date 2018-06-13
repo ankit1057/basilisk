@@ -18,13 +18,13 @@ public class SnakeActor extends SimpleMovingActor {
 	public static final int DRAW_SIZE = 25;
 	public static final int STEP = 25;
 	public static ArrayList<PointsXY> tailPos;
-	public static String userName; //changes for each snake!!
-	public static int userID;
+	public String userName; //changes for each snake!!
+	public int userID;
 	private int colour;
 //	private Paint paint;
 
 
-	public SnakeActor(int x, int y, String uname, int colour) {
+	public SnakeActor(int x, int y, String uname, int uid, int colour) {
 		super(x, y, DRAW_SIZE, DRAW_SIZE, colour);
 		this.colour = colour;
 		getVelocity().stop().setXDirection(Velocity.DIRECTION_RIGHT).setXSpeed(STEP);
@@ -32,7 +32,7 @@ public class SnakeActor extends SimpleMovingActor {
 		tailPos.add(new PointsXY(x - this.getWidth(), y));
 		tailPos.add(new PointsXY(x - this.getWidth() * 2, y));
 		userName = uname;
-		userID = -1; //default, invalid
+		userID = uid;
 //		this.paint = new Paint();
 //		stylePaint(this.paint, this.colour);
 	}
