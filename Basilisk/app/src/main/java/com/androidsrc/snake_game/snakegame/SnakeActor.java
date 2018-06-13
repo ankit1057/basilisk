@@ -19,6 +19,7 @@ public class SnakeActor extends SimpleMovingActor {
 	public static final int STEP = 25;
 	public static ArrayList<PointsXY> tailPos;
 	public static String userName; //changes for each snake!!
+	public static int userID;
 	private int colour;
 //	private Paint paint;
 
@@ -31,6 +32,7 @@ public class SnakeActor extends SimpleMovingActor {
 		tailPos.add(new PointsXY(x - this.getWidth(), y));
 		tailPos.add(new PointsXY(x - this.getWidth() * 2, y));
 		userName = uname;
+		userID = -1; //default, invalid
 //		this.paint = new Paint();
 //		stylePaint(this.paint, this.colour);
 	}

@@ -64,7 +64,7 @@ class Clientlistenerthread extends Thread
                         System.out.println("xfer_cl_rx_data");
                         System.out.println("Object read is - " + ((SnakeCommBuffer) serverObject).nextPos.x
                                 + ((SnakeCommBuffer) serverObject).nextPos.y );
-                        data.putSerializable("GameDataBuff", (SnakeCommBuffer)serverObject);
+                        data.putSerializable(MainFragment.constants.DATA_KEY, (SnakeCommBuffer)serverObject);
 
                         Message msg = new Message();
                         msg.setData(data);

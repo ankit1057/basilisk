@@ -66,6 +66,7 @@ public class JoinGameFragment extends Fragment {
                     if (clientConnTd == null) {
                         //TODO: need to handle invalid ip numnber
                         clientConnTd = new ClientConnThread((Context) act, IP);
+
                         statusTV.setText("Waiting for Connection, connect again to verify!");
                     }
 

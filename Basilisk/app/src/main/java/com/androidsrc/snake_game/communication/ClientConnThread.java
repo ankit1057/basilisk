@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.androidsrc.snake_game.MainActivity;
 import com.androidsrc.snake_game.R;
+import com.androidsrc.snake_game.game.MainFragment;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -57,6 +58,8 @@ public class ClientConnThread {
     }
 
     private class clienthandlerthread extends Thread {
+        private PlayerInfo playerInfo;
+
         @Override
         public void run() {
             //primary check to see if the socket is already open or not
@@ -68,10 +71,11 @@ public class ClientConnThread {
                     sockethashmap.put("Server", clientsendersocket);
                     ServerOn = true;
                     activesocketsinfo.put(clientsendersocket, ServerOn);
+                    playerInfo = new PlayerInfo(MainFragment.userName.getText().toString());
                     while (ServerOn) {
                         if (clientthreadcount < 2) {
                             testmessage = context.getString(R.string.clientConnReq);
-                            ClientsenderThread cliThread = new ClientsenderThread(clientsendersocket, testmessage);
+                            ClientsenderThread cliThread = new ClientsenderThread(clientsendersocket, playerInfo); //TODO: check this later
                             Clientlistenerthread cliThread2 = new Clientlistenerthread(context, clientsendersocket);
                             //Number of threads
                             clientthreadcount = 2;

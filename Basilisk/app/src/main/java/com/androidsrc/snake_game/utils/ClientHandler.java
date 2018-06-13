@@ -14,7 +14,6 @@ import java.util.ArrayList;
 
 public class ClientHandler extends Handler {
 
-
     Bundle messageData;
 
     @Override
@@ -23,12 +22,12 @@ public class ClientHandler extends Handler {
         ArrayList<SnakeCommBuffer> enemylist = MainFragment.sgp.enemies; //TODO: If ArrayList is ref
         ArrayList<SnakeActor> enemysnakes = MainFragment.sgp.enemysnakes;
         messageData = msg.getData();
-        Object clientObject = messageData.getSerializable("GameDataBuff");
+        Object clientObject = messageData.getSerializable(MainFragment.constants.DATA_KEY);
         SnakeCommBuffer cob;
 
         if (clientObject instanceof SnakeCommBuffer) {
             cob = (SnakeCommBuffer) clientObject;
-            System.out.println("MessageHandlerOut Client"+cob.nextPos.x+cob.nextPos.y);
+            //System.out.println("MessageHandlerOut Client"+cob.nextPos.x+cob.nextPos.y);
 
             //TODO: Verify below comment from server. Caution! may reset the client!!
             //If the received username is for the current user, then that is start of the game

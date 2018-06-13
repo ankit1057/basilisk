@@ -87,7 +87,7 @@ public class MainFragment extends Fragment {
                             @Override
                             public void onClick(View view) {
                                 if (userName.getText() != null && userName.getText().toString().trim().length() > 0) {
-                                    sgp = new SnakeGamePanel(userName.getText().toString(), act, isServer);
+                                    sgp = new SnakeGamePanel(userName.getText().toString(), act, isServer); //TODO: verify the two init
                                     fragmentManager.beginTransaction()
                                             .replace(R.id.container, new HostFragment()).addToBackStack(HostFragment.class.getName())
                                             .commit();
@@ -108,6 +108,7 @@ public class MainFragment extends Fragment {
                             public void onClick(View view) {
                                 /*ClientConnectionThread clientConnect = new ClientConnectionThread(userName.getText().toString());
                                 clientConnect.start();*/
+                                sgp = new SnakeGamePanel(userName.getText().toString(), act, isServer); //TODO: verify the two init
                                 if (userName.getText() != null && userName.getText().toString().trim().length() > 0) {
 //                                    if (ClientConnectionThread.serverStarted) {
                                     fragmentManager.beginTransaction()

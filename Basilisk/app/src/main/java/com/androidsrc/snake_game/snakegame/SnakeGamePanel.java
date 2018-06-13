@@ -37,6 +37,7 @@ public class SnakeGamePanel extends AbstractGamePanel {
 		isServer = isServ;
 		username = uname;
 		enemies = new ArrayList<SnakeCommBuffer>();
+		enemysnakes = new ArrayList<SnakeActor>();
 	}
 
 
@@ -52,6 +53,7 @@ public class SnakeGamePanel extends AbstractGamePanel {
 		score = new ScoreBoard(this);
 		buff = new SnakeCommBuffer(username, snake.tailPos, snake.getPoint(),
 		snake.getVelocity());
+
 //		if (!isServer) {
 //            if (clientConnTd == null) {
 //                clientConnTd = new ClientHandler();

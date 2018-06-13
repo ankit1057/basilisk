@@ -7,6 +7,7 @@ import com.androidsrc.snake_game.MainActivity;
 import com.androidsrc.snake_game.R;
 import com.androidsrc.snake_game.game.HostFragment;
 import com.androidsrc.snake_game.game.MainFragment;
+import com.androidsrc.snake_game.snakegame.SnakeCommBuffer;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -25,9 +26,10 @@ public class ServerConnThread {
 	static final int socketServerPORT = 8080;
 	boolean ServerOn = false;
 	public boolean allplayersjoined = false;
-	static int num_players = HostFragment.numberPlayers;
-	public String username = "player1";
-	public static HashMap<Socket , String> clientsockethashmap = new HashMap();
+	//public String username = "player1";
+	public static int userid;
+	public static HashMap<Socket , Integer> socketHashMapID = new HashMap();
+	public static HashMap<Socket , String> socketHashMapUName = new HashMap();
 	static Object testmessage;
 	public static Context context;
 
@@ -36,6 +38,7 @@ public class ServerConnThread {
 		Thread socketServerThread = new Thread(new SocketServerThread());
 		socketServerThread.start();
 		context = mycontext;
+		userid = MainFragment.constants.SERVER_USER_ID;		//user id for the server is 1.
 	}
 
 	public int getPort() {
@@ -44,11 +47,11 @@ public class ServerConnThread {
 
 	//TODO: Ondestroy kill all the sockets connected to the server
 	public static void onDestroy() {
-		Iterator<Socket> socketIterator = ServerConnThread.clientsockethashmap.keySet().iterator();
+		Iterator<Socket> socketIterator = ServerConnThread.socketHashMapID.keySet().iterator();
 		Socket socket;
 		while (socketIterator.hasNext()) {
 			socket = socketIterator.next();
-			if (ServerConnThread.clientsockethashmap.get(socket) != null) {
+			if (ServerConnThread.socketHashMapID.get(socket) != null) {
 				try{
 					socket.close();
 				}
@@ -81,28 +84,22 @@ public class ServerConnThread {
 						// Start a Service thread
 						if(!allplayersjoined) //check to see if all the clients have connected
 						{
-							username = username + "1";
+							userid = userid ++;	//get next user ID for each clients
 							Serverlistenerthread serverthread = new Serverlistenerthread(clientSocket);
 							serverthread.start();
 							testmessage = context.getString(R.string.clientConnAck);
 							Serversenderthread serverthread2 = new Serversenderthread(clientSocket, testmessage);
 							serverthread2.start();
-							//TODO: sockethashmap can store the player names. null can be replaced with playernames
-							clientsockethashmap.put(clientSocket,username );
-							//Number of threads 
-							final int nbThreads = Thread.getAllStackTraces().keySet().size();
-//							activity.runOnUiThread(new Runnable() {
-//
-//								@Override
-//								public void run() {
-//									activity.msg.append("\n Socket accepted from client number :" + clientSocket.getInetAddress() + "Number of threads now : " + nbThreads);
-//								}
-//							});
-							if (clientsockethashmap.size() == num_players) {
+
+							//username will be replaced in listner thread
+							socketHashMapID.put(clientSocket,userid);
+							socketHashMapUName.put(clientSocket,null);
+
+							if (socketHashMapID.size() == HostFragment.numberPlayers) {
 								allplayersjoined = true;
+								HostFragment.isAllPlayersConnected = true;
 							}
 						}
-
 					}
 					catch(IOException ioe)
 					{
@@ -128,17 +125,38 @@ public class ServerConnThread {
 		}
 	}
 
-	public static void sendToAll(Object message) {
-		Iterator<Socket> socketIterator = ServerConnThread.clientsockethashmap.keySet().iterator();
+	public static void sendToAll(Object gameObject) {
+		Iterator<Socket> socketIterator = ServerConnThread.socketHashMapID.keySet().iterator();
 		Socket socket;
 		while (socketIterator.hasNext()) {
 			socket = socketIterator.next();
-			if (ServerConnThread.clientsockethashmap.get(socket) != null) {
-				Serversenderthread sendtoall = new Serversenderthread(socket,message);
-				sendtoall.start();
+			if (!ServerConnThread.socketHashMapID.get(socket).equals(((SnakeCommBuffer) gameObject).userID)) {
+				Serversenderthread sendGame = new Serversenderthread(socket, gameObject);
+				sendGame.start();
+			}
+
+			try {
+				Thread.sleep(5);   //TODO: initially 100, changed now. verify if needed
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+		}
+	}
+
+	public static void sendToClient(Object gameObject) {
+		Iterator<Socket> socketIterator = ServerConnThread.socketHashMapID.keySet().iterator();
+		Socket socket;
+		while (socketIterator.hasNext()) {
+			socket = socketIterator.next();
+			if (ServerConnThread.socketHashMapID.get(socket).equals(((SnakeCommBuffer) gameObject).userID)) {
+				Serversenderthread sendGame = new Serversenderthread(socket, gameObject);
+				sendGame.start();
+				return;
 			}
 		}
 	}
+
 	//TODO: Function to return IP address.
 	public String getIpAddress() {
 		String ip = "";

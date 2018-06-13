@@ -83,7 +83,8 @@ public class MainActivity extends Activity {
 					System.out.println(size2);
 					System.out.println("Size difference ="+ (size1 - size2));
 					if(server) {
-						ServerConnThread.sendToAll(username1);
+						//ServerConnThread.sendToAll(username1);
+						//TODO: old code, ignore it!
 					}
 					else
 					{
