@@ -7,7 +7,9 @@ import android.graphics.Paint;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
+import com.androidsrc.snake_game.MainActivity;
 import com.androidsrc.snake_game.communication.ServerConnThread;
+import com.androidsrc.snake_game.game.MainFragment;
 import com.androidsrc.snake_game.panels.AbstractGamePanel;
 
 import java.util.ArrayList;
@@ -21,10 +23,10 @@ public class SnakeGamePanel extends AbstractGamePanel {
     public static String username;
 	public static int nusers;
 	public static ArrayList<SnakeCommBuffer> enemies; //used to store details about other snakes
-    public static SnakeActor snake, snake2;
+    public SnakeActor snake, snake2;
 	public static ArrayList<SnakeActor> enemysnakes;
-    private static AppleActor apple;
-    private static ScoreBoard score;
+    private AppleActor apple;
+    private ScoreBoard score;
     private static SnakeCommBuffer buff;
     private static boolean isPaused = false;
 
@@ -40,9 +42,13 @@ public class SnakeGamePanel extends AbstractGamePanel {
 
 	@Override
 	public void onStart() {
-		//snake = new SnakeActor(100, 100);
-		snake2 = new SnakeActor(300, 300, username, 1);
-		apple = new AppleActor(300, 50);
+
+		if(isServer) {
+			snake = new SnakeActor(100, 100, username, MainFragment.constants.colorLUT.get(2));
+		}
+
+		snake2 = new SnakeActor(300, 300, username, MainFragment.constants.colorLUT.get(3));
+		apple = new AppleActor(300, 50, MainFragment.constants.colorLUT.get(4));
 		score = new ScoreBoard(this);
 		buff = new SnakeCommBuffer(username, snake.tailPos, snake.getPoint(),
 		snake.getVelocity());

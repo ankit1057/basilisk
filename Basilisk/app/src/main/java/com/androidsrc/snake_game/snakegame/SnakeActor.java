@@ -1,7 +1,6 @@
 package com.androidsrc.snake_game.snakegame;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
@@ -19,45 +18,47 @@ public class SnakeActor extends SimpleMovingActor {
 	public static final int DRAW_SIZE = 25;
 	public static final int STEP = 25;
 	public static ArrayList<PointsXY> tailPos;
-	public static int Colour;
 	public static String userName; //changes for each snake!!
+	private int colour;
+//	private Paint paint;
 
 
-	public SnakeActor(int x, int y, String uname, int userID) {
-		super(x, y, DRAW_SIZE, DRAW_SIZE);
+	public SnakeActor(int x, int y, String uname, int colour) {
+		super(x, y, DRAW_SIZE, DRAW_SIZE, colour);
+		this.colour = colour;
 		getVelocity().stop().setXDirection(Velocity.DIRECTION_RIGHT).setXSpeed(STEP);
 		tailPos = new ArrayList<PointsXY>();
 		tailPos.add(new PointsXY(x - this.getWidth(), y));
 		tailPos.add(new PointsXY(x - this.getWidth() * 2, y));
 		userName = uname;
-
-		//TODO: Max colour 5, assuming max players 5 else others will have white
-		switch (userID) {
-			case 0: Colour = Color.GREEN; break;
-			case 1: Colour = Color.YELLOW; break;
-			case 2: Colour = Color.BLUE; break;
-			case 3: Colour = Color.MAGENTA; break;
-			case 4: Colour = Color.CYAN; break;
-			default:Colour = Color.WHITE;
-
-		}
+//		this.paint = new Paint();
+//		stylePaint(this.paint, this.colour);
 	}
 
 	@Override
-	public void stylePaint(Paint p) {
-		p.setColor(Colour);
+	public void stylePaint(Paint p, int colour) {
+		p.setColor(colour);
 		p.setStyle(Style.FILL);
 	}
 
 	@Override
 	public void draw(Canvas canvas) {
-		getPaint().setColor(Color.GREEN);
+		getPaint().setColor(this.colour);
 		canvas.drawRect(getRect(), getPaint());
 		for (PointsXY p : tailPos) {
 			Rect r = new Rect(p.x, p.y, p.x + this.getWidth(), p.y + this.getHeight());
 			canvas.drawRect(r, getPaint());
 		}
 	}
+
+//	public void drawSnake(Canvas canvas) {
+//		this.paint.setColor(this.colour);
+//		canvas.drawRect(getRect(), this.paint);
+//		for (PointsXY p : tailPos) {
+//			Rect r = new Rect(p.x, p.y, p.x + this.getWidth(), p.y + this.getHeight());
+//			canvas.drawRect(r, this.paint);
+//		}
+//	}
 
 	public void move() {
 		if (this.isEnabled()) {

@@ -7,13 +7,13 @@ import com.androidsrc.snake_game.panels.Velocity;
 public abstract class SimpleMovingActor extends PositionedActor {
 	private Velocity velocity;
 
-	public SimpleMovingActor(int x, int y) {
-		super(x, y);
+	public SimpleMovingActor(int x, int y, int colour) {
+		super(x, y, colour);
 		this.velocity = new Velocity();
 	}
 	
-	public SimpleMovingActor(int x, int y, int width, int height) { 
-		this(x, y);
+	public SimpleMovingActor(int x, int y, int width, int height, int colour) {
+		this(x, y, colour);
 		this.setDimensions(width, height);
 	}
 	

@@ -16,7 +16,8 @@ public class ScoreBoard extends PositionedActor {
 	}
 
 	@Override
-	public void stylePaint(Paint p) {
+	public void stylePaint(Paint p, int colour) {
+		//TODO: colour is not used, handle appropirately
 		p.setTextSize(20);
 	}
 	

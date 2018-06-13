@@ -17,7 +17,7 @@ import com.androidsrc.snake_game.communication.ServerConnThread;
 
 
 public class HostFragment extends Fragment {
-    public static ServerConnThread serverHandler;
+    public static ServerConnThread serverConTd;
     public static EditText gameName;
     public EditText numberOfPlayers;
     public static int numberPlayers;
@@ -28,8 +28,8 @@ public class HostFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Start the server Connection thread to listen for client connections.
-        serverHandler = new ServerConnThread((Context) act);
-        ipaddr = serverHandler.getIpAddress();
+        serverConTd = new ServerConnThread((Context) act);
+        ipaddr = serverConTd.getIpAddress();
     }
 
     @Override
@@ -58,7 +58,8 @@ public class HostFragment extends Fragment {
                     if (numberPlayers > 5 || numberPlayers < 1) {
                         Toast.makeText(getActivity(), "Maximum 5 players allowed ", Toast.LENGTH_SHORT).show();
                     } else {
-                        //serverHandler.start();
+                        //serverConTd.start();
+                        serverConTd.allplayersjoined
                         //TODO: Find what to do here. How to Transition into game fragment
                         StartGameFragment gameFragment = new StartGameFragment();
                         fragmentManager.beginTransaction()

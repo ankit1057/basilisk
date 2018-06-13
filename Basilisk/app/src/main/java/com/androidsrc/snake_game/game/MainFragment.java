@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.androidsrc.snake_game.R;
 import com.androidsrc.snake_game.snakegame.SnakeGamePanel;
 import com.androidsrc.snake_game.utils.ClientHandler;
+import com.androidsrc.snake_game.utils.Constants;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -28,6 +29,7 @@ public class MainFragment extends Fragment {
     public static ClientHandler clientHandler;
     public static boolean isServer;
     public static EditText userName;
+    public static Constants constants;
 
     @Override
     public void onAttach(Context context) {
@@ -38,6 +40,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        constants = new Constants();
         isServer = false;
     }
 

@@ -13,13 +13,13 @@ public class AppleActor extends PositionedActor {
 	
 	public static final int DRAW_SIZE = 25;
 
-	public AppleActor(int x, int y) {
-		super(x, y, DRAW_SIZE, DRAW_SIZE);
+	public AppleActor(int x, int y, int colour) {
+		super(x, y, DRAW_SIZE, DRAW_SIZE, colour);
 	}
 
 	@Override
-	public void stylePaint(Paint p) {
-		p.setColor(Color.RED);
+	public void stylePaint(Paint p, int colour) {
+		p.setColor(colour);
 		p.setStyle(Style.FILL);
 	}
 

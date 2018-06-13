@@ -7,17 +7,25 @@ public abstract class Actor {
 	// Defines the default paint
 	private Paint paint;
 	private boolean enabled;
-	
+
 	public Actor() {
+		// Enable and make visible
+		this.enabled = true;
+		// Setup paint for actor
+		this.paint = new Paint();
+		stylePaint(paint, -1);
+	}
+	
+	public Actor(int colour) {
 		// Enable and make visible
 		this.enabled = true;
 	    // Setup paint for actor
 		this.paint = new Paint();
-		stylePaint(paint);
+		stylePaint(paint, colour);
 	}
 	
 	public Paint getPaint() {
-		return paint;
+		return this.paint;
 	}
 	
 	public boolean isEnabled() {
@@ -29,7 +37,7 @@ public abstract class Actor {
 	}
 	
 	// Define the default paint style
-	public abstract void stylePaint(Paint p);
+	public abstract void stylePaint(Paint p, int colour);
 	// Defines how the actor is drawn
 	public abstract void draw(Canvas canvas);
 }

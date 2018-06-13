@@ -15,13 +15,18 @@ public abstract class PositionedActor extends Actor {
 	private PointsXY pos;
 	private int height;
 	private int width;
-	
+
 	public PositionedActor(int x, int y) {
 		this.pos = new PointsXY(x, y);
 	}
+
+	public PositionedActor(int x, int y, int colour) {
+		super(colour);
+		this.pos = new PointsXY(x, y);
+	}
 	
-	public PositionedActor(int x, int y, int width, int height) { 
-		this(x, y);
+	public PositionedActor(int x, int y, int width, int height, int colour) {
+		this(x, y, colour);
 		this.setDimensions(width, height);
 	}
 	

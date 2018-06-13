@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.androidsrc.snake_game.MainActivity;
 import com.androidsrc.snake_game.R;
+import com.androidsrc.snake_game.game.HostFragment;
+import com.androidsrc.snake_game.game.MainFragment;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -22,8 +24,8 @@ public class ServerConnThread {
 	ServerSocket myserverSocket;
 	static final int socketServerPORT = 8080;
 	boolean ServerOn = false;
-	boolean allplayersjoined = false;
-	static int num_players = 3;
+	public boolean allplayersjoined = false;
+	static int num_players = HostFragment.numberPlayers;
 	public String username = "player1";
 	public static HashMap<Socket , String> clientsockethashmap = new HashMap();
 	static Object testmessage;
