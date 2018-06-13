@@ -61,7 +61,8 @@ public class ServerHandler extends Handler {
     private SnakeActor updateSnake(SnakeActor snakeIn, SnakeCommBuffer cbuff) {
 
         if (snakeIn == null) {
-            snakeIn = new SnakeActor(cbuff.nextPos.x, cbuff.nextPos.y, cbuff.username, cbuff.userID);
+            snakeIn = new SnakeActor(cbuff.nextPos.x, cbuff.nextPos.y,
+                    cbuff.username, MainFragment.constants.colorLUT.get(cbuff.userID));
         }
         snakeIn.tailPos = cbuff.snakePos;
         snakeIn.setPoint(cbuff.nextPos);

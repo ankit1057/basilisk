@@ -23,7 +23,7 @@ public class SnakeGamePanel extends AbstractGamePanel {
     public static String username;
 	public static int nusers;
 	public static ArrayList<SnakeCommBuffer> enemies; //used to store details about other snakes
-    public SnakeActor snake, snake2;
+    public SnakeActor snake;
 	public static ArrayList<SnakeActor> enemysnakes;
     private AppleActor apple;
     private ScoreBoard score;
@@ -44,11 +44,11 @@ public class SnakeGamePanel extends AbstractGamePanel {
 	@Override
 	public void onStart() {
 
-		if(isServer) {
-			snake = new SnakeActor(100, 100, username, MainFragment.constants.colorLUT.get(2));
-		}
+//		if(isServer) {
+//			snake = new SnakeActor(100, 100, username, MainFragment.constants.colorLUT.get(2));
+//		}
 
-		snake2 = new SnakeActor(300, 300, username, MainFragment.constants.colorLUT.get(3));
+//		snake2 = new SnakeActor(300, 300, username, MainFragment.constants.colorLUT.get(3));
 		apple = new AppleActor(300, 50, MainFragment.constants.colorLUT.get(4));
 		score = new ScoreBoard(this);
 		buff = new SnakeCommBuffer(username, snake.tailPos, snake.getPoint(),
@@ -67,9 +67,15 @@ public class SnakeGamePanel extends AbstractGamePanel {
 			if (isUpdateIter) {
 				isUpdateIter = false; //for the next iteration
 
-				if (snake.checkBoundsCollision(this, enemies)) {
-					snake.setEnabled(false);
+
+				for(int i=0; i<enemysnakes.size();i++) {
+					if (snake.checkBoundsCollision(this, enemysnakes.get(i).tailPos)) {
+						snake.setEnabled(false);
+						break;
+					}
 				}
+
+
 				snake.move();
 				if (apple.intersect(snake)) {
 					snake.grow();
@@ -88,10 +94,10 @@ public class SnakeGamePanel extends AbstractGamePanel {
 					//ClientConnThread.sendToServer(buff);
 					//System.out.println("xfer_cl_snt");
 
-					if(enemies.size() > 0) {
-						snake2.tailPos = enemies.get(0).snakePos;
-						snake2.setPoint(enemies.get(0).nextPos);
-					}
+//					if(enemies.size() > 0) {
+//						snake2.tailPos = enemies.get(0).snakePos;
+//						snake2.setPoint(enemies.get(0).nextPos);
+//					}
 					//snake2.getVelocity(enemies.get(0).velocity);
 
 					//client wait for the processed data from server
@@ -129,7 +135,11 @@ public class SnakeGamePanel extends AbstractGamePanel {
 	public void redrawCanvas(Canvas canvas) {
 		if (snake.isEnabled()) {
 			snake.draw(canvas);
-			snake2.draw(canvas);
+
+			for(int i=0; i<enemysnakes.size();i++) {
+				enemysnakes.get(i).draw(canvas);
+			}
+
 			apple.draw(canvas);
 			score.draw(canvas);
 		} else {
@@ -164,20 +174,4 @@ public class SnakeGamePanel extends AbstractGamePanel {
 	public void serverUpdateNoPlayers(int nuser) {
 		nusers = nuser;
 	}
-
-    public void clientUpdate(SnakeCommBuffer rxbuff) {
-
-	    buff = rxbuff;
-        snake.setPoint(rxbuff.nextPos);
-        snake.move();
-//        if (snake.checkBoundsCollision(this)) {
-//            snake.setEnabled(false);
-//        }
-//        snake.move();
-//        if (apple.intersect(snake)) {
-//            snake.grow();
-//            score.earnPoints(50);
-//            apple.reposition(this);
-//        }
-    }
 }

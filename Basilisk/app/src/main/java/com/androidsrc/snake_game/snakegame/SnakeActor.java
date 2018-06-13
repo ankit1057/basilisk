@@ -78,9 +78,8 @@ public class SnakeActor extends SimpleMovingActor {
 		this.tailPos.add(new PointsXY(getX(), getY()));
 	}
 
-	public boolean checkBoundsCollision(AbstractGamePanel panel, ArrayList<SnakeCommBuffer> enemies) {
+	public boolean checkBoundsCollision(AbstractGamePanel panel, ArrayList<PointsXY> enemies) {
 		int isnake, jpoint;
-		SnakeCommBuffer snakeNow;
 		int headX = this.getX();
 		int headY = this.getY();
 
@@ -95,12 +94,9 @@ public class SnakeActor extends SimpleMovingActor {
 		}
 
 		for (isnake = 0; isnake < enemies.size(); isnake++) {
-			snakeNow = enemies.get(isnake);
-			for (jpoint = 0; jpoint < snakeNow.snakePos.size(); jpoint++) {
-				if ((headX == snakeNow.snakePos.get(jpoint).x) &
-						(headY == snakeNow.snakePos.get(jpoint).y)) {
-					return true;
-				}
+			if ((headX == enemies.get(isnake).x) &
+					(headY == enemies.get(isnake).y)) {
+				return true;
 			}
 		}
 
