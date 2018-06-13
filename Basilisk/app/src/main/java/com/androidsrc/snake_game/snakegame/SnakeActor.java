@@ -18,8 +18,8 @@ public class SnakeActor extends SimpleMovingActor {
 	public static final int DRAW_SIZE = 25;
 	public static final int STEP = 25;
 	public ArrayList<PointsXY> tailPos;
-	public static String userName; //changes for each snake!!
-	public static int userID;
+	public String userName; //changes for each snake!!
+	public int userID;
 	private int colour;
 //	private Paint paint;
 
@@ -31,8 +31,8 @@ public class SnakeActor extends SimpleMovingActor {
 		tailPos = new ArrayList<PointsXY>();
 		tailPos.add(new PointsXY(x - this.getWidth(), y));
 		tailPos.add(new PointsXY(x - this.getWidth() * 2, y));
-		userName = uname;
-		userID = -1; //default, invalid
+		this.userName = uname;
+		this.userID = -1; //default, invalid
 //		this.paint = new Paint();
 //		stylePaint(this.paint, this.colour);
 	}
@@ -92,7 +92,7 @@ public class SnakeActor extends SimpleMovingActor {
 		} else if (headY >= (panel.getHeight() - this.getHeight())) {
 			return true;
 		}
-		System.out.println("checkboundsize"+enemies.size());
+		//system.out.println("checkboundsize"+enemies.size());
 		for (isnake = 0; isnake < enemies.size(); isnake++) {
 			if ((headX == enemies.get(isnake).x) &
 					(headY == enemies.get(isnake).y)) {

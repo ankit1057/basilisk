@@ -23,13 +23,14 @@ public class SnakeGamePanel extends AbstractGamePanel {
     public static boolean isUpdateIter;
     public static String username;
 	public static int nusers;
-	public static ArrayList<SnakeCommBuffer> enemies; //used to store details about other snakes
+	public ArrayList<SnakeCommBuffer> enemies; //used to store details about other snakes
     public SnakeActor snake;
 	public ArrayList<SnakeActor> enemysnakes;
     private AppleActor apple;
     private ScoreBoard score;
     private SnakeCommBuffer buff;
     private static boolean isPaused = false;
+    private static boolean isOver = false;
 
     //public static ClientHandler clientConnTd;
 
@@ -68,7 +69,7 @@ public class SnakeGamePanel extends AbstractGamePanel {
 			if (isUpdateIter) {
 				isUpdateIter = false; //for the next iteration
 
-				System.out.println("enemysize"+this.enemysnakes.size());
+				//system.out.println("enemysize"+this.enemysnakes.size());
 				for(int i=0; i<this.enemysnakes.size();i++) {
 					if (this.snake.checkBoundsCollision(this, this.enemysnakes.get(i).tailPos)) {
 						this.snake.setEnabled(false);
@@ -82,11 +83,12 @@ public class SnakeGamePanel extends AbstractGamePanel {
 					this.snake.grow();
 					this.score.earnPoints(50);
 					this.apple.reposition(this);
-					System.out.println("SnakeLenNow :" + this.snake.tailPos.size());
+					//system.out.println("SnakeLenNow :" + this.snake.tailPos.size());
 				}
 			} else {
 				isUpdateIter = true; //for the next iteration
-				if(snake.isEnabled()) {
+				if(!isOver) {
+					isOver = !(snake.isEnabled());
 					if (!isServer) {
 						//update buffer with latest value
 						this.buff.snakePos = snake.tailPos;
@@ -95,7 +97,7 @@ public class SnakeGamePanel extends AbstractGamePanel {
 						//client send the buffer here
 						ClientConnThread.sendToServer(this.buff);
 
-						//System.out.println("xfer_cl_snt");
+						////system.out.println("xfer_cl_snt");
 
 						//					if(enemies.size() > 0) {
 						//						snake2.tailPos = enemies.get(0).snakePos;
@@ -115,7 +117,7 @@ public class SnakeGamePanel extends AbstractGamePanel {
 						buff.velocity = this.snake.getVelocity();
 						//Bundle bundle = new Bundle();
 						//bundle.putSerializable("buffer",buff.nextPosX);
-						System.out.println("xfer_sr_snt");
+						//system.out.println("xfer_sr_snt");
 						//PlayerInfo xp = new PlayerInfo("send2");
 						ServerConnThread.sendToAll(this.buff); //TODO: Change it back to buff
 					}
@@ -140,7 +142,9 @@ public class SnakeGamePanel extends AbstractGamePanel {
 			snake.draw(canvas);
 
 			for(int i=0; i<enemysnakes.size();i++) {
-				enemysnakes.get(i).draw(canvas);
+				if(enemysnakes.get(i).isEnabled()) {
+					enemysnakes.get(i).draw(canvas);
+				}
 			}
 
 			apple.draw(canvas);

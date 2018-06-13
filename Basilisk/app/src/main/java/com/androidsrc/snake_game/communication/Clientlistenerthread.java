@@ -54,16 +54,16 @@ class Clientlistenerthread extends Thread
                 if (serverObject != null) {
                     if(serverObject instanceof PlayerInfo) {
                         //data.putSerializable("Server_object_read", (PlayerInfo) serverObject);
-                        //System.out.println(data);
-                        System.out.println("Object read is - " + ((PlayerInfo) serverObject).username );
-                        //System.out.println("Object read is - " + ((PlayerInfo) serverObject).username);
+                        ////system.out.println(data);
+                        //system.out.println("Object read is - " + ((PlayerInfo) serverObject).username );
+                        ////system.out.println("Object read is - " + ((PlayerInfo) serverObject).username);
                     }
                     else if(serverObject instanceof SnakeCommBuffer) {
                         //data.putSerializable("Server_object_read", (PlayerInfo) serverObject);
-                        //System.out.println(data);
-                        System.out.println("xfer_cl_rx_data" + ((SnakeCommBuffer) serverObject).snakePos.get(0).x +
-                                ((SnakeCommBuffer) serverObject).snakePos.get(0).y + ((SnakeCommBuffer) serverObject).snakePos.get(1).x +
-                                ((SnakeCommBuffer) serverObject).snakePos.get(1).y + "size" + ((SnakeCommBuffer) serverObject).snakePos.size());
+                        ////system.out.println(data);
+                        //system.out.println("xfer_cl_rx_data" + ((SnakeCommBuffer) serverObject).snakePos.get(0).x +
+                        //        ((SnakeCommBuffer) serverObject).snakePos.get(0).y + ((SnakeCommBuffer) serverObject).snakePos.get(1).x +
+                        //        ((SnakeCommBuffer) serverObject).snakePos.get(1).y + "size" + ((SnakeCommBuffer) serverObject).snakePos.size());
 
                         data.putSerializable(MainFragment.constants.DATA_KEY, (SnakeCommBuffer)serverObject);
 
@@ -73,16 +73,16 @@ class Clientlistenerthread extends Thread
 
                         //clientsnake = new SnakeGamePanel(this.activity.getApplicationContext(), false);
                         //clientsnake.clientUpdate((SnakeCommBuffer)serverObject);
-                        //System.out.println("Object read is - " + ((PlayerInfo) serverObject).username);
+                        ////system.out.println("Object read is - " + ((PlayerInfo) serverObject).username);
                     }
                     else if(serverObject instanceof Bundle) {
                         //data.putSerializable("Server_object_read", (PlayerInfo) serverObject);
-                        //System.out.println(data);
+                        ////system.out.println(data);
                         SnakeCommBuffer buff = (SnakeCommBuffer)((Bundle) serverObject).getSerializable("buffer");
-                        System.out.println("xfer_cl_bndle");
-                        System.out.println("Object read is - " + buff.nextPos.x
-                                + buff.nextPos.y );
-                        //System.out.println("Object read is - " + ((PlayerInfo) serverObject).username);
+                        //system.out.println("xfer_cl_bndle");
+                        //system.out.println("Object read is - " + buff.nextPos.x
+                        //        + buff.nextPos.y );
+                        ////system.out.println("Object read is - " + ((PlayerInfo) serverObject).username);
                     }
                     else if(serverObject instanceof String) {
                         final String message = (String) serverObject;

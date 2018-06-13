@@ -103,7 +103,7 @@ public class ServerConnThread {
 					}
 					catch(IOException ioe)
 					{
-						System.out.println("Exception encountered on accept. Ignoring. Stack Trace :");
+						//system.out.println("Exception encountered on accept. Ignoring. Stack Trace :");
 						ioe.printStackTrace();
 					}
 				}
@@ -111,11 +111,11 @@ public class ServerConnThread {
 				{
 					myserverSocket.close();
 					ServerOn = false;
-					System.out.println("ServerConnThread Stopped");
+					//system.out.println("ServerConnThread Stopped");
 				}
 				catch(Exception ioe)
 				{
-					System.out.println("Problem stopping snake_game socket");
+					//system.out.println("Problem stopping snake_game socket");
 					System.exit(-1);
 				}
 			} catch (IOException e) {

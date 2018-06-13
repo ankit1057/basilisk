@@ -51,9 +51,9 @@ class Serverlistenerthread extends Thread {
                         data.putInt(constants.ACTION_KEY, constants.PLAYER_LIST_UPDATE);
                     } else if (gameObject instanceof SnakeCommBuffer) {
 
-                        System.out.println("xfer_cl_tx_data" + ((SnakeCommBuffer) gameObject).snakePos.get(0).x +
-                                ((SnakeCommBuffer) gameObject).snakePos.get(0).y + ((SnakeCommBuffer) gameObject).snakePos.get(1).x +
-                                ((SnakeCommBuffer) gameObject).snakePos.get(1).y + "Size" + ((SnakeCommBuffer) gameObject).snakePos.size());
+                        //system.out.println("xfer_cl_tx_data" + ((SnakeCommBuffer) gameObject).snakePos.get(0).x +
+                        //        ((SnakeCommBuffer) gameObject).snakePos.get(0).y + ((SnakeCommBuffer) gameObject).snakePos.get(1).x +
+                        //        ((SnakeCommBuffer) gameObject).snakePos.get(1).y + "Size" + ((SnakeCommBuffer) gameObject).snakePos.size());
 
                         data.putSerializable(constants.DATA_KEY, (SnakeCommBuffer) gameObject);
                     }

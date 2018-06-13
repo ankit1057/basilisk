@@ -76,12 +76,12 @@ public class MainActivity extends Activity {
             public void onClick(View arg0) {
                 try {
 					size1 = Runtime.getRuntime().totalMemory();
-					System.out.println(size1);
+					//system.out.println(size1);
 					//Runtime.getRuntime().totalMemory();
 					PlayerInfo username1 = new PlayerInfo("Basilisk_game_player_1");
 					size2 = Runtime.getRuntime().totalMemory();
-					System.out.println(size2);
-					System.out.println("Size difference ="+ (size1 - size2));
+					//system.out.println(size2);
+					//system.out.println("Size difference ="+ (size1 - size2));
 					if(server) {
 						//ServerConnThread.sendToAll(username1);
 						//TODO: old code, ignore it!
@@ -90,7 +90,7 @@ public class MainActivity extends Activity {
 					{
 						ClientConnThread.sendToServer(username1);
 						final int nbThreads = Thread.getAllStackTraces().keySet().size();
-						System.out.println("Number of threads now is : "+nbThreads);
+						//system.out.println("Number of threads now is : "+nbThreads);
 					}
                 }
                 catch(Exception e)
