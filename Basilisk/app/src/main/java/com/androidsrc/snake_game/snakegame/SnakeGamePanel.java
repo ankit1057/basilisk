@@ -53,8 +53,8 @@ public class SnakeGamePanel extends AbstractGamePanel {
 //		snake2 = new SnakeActor(300, 300, username, MainFragment.constants.colorLUT.get(3));
 		this.apple = new AppleActor(300, 50, MainFragment.constants.colorLUT.get(4));
 		this.score = new ScoreBoard(this);
-		this.buff = new SnakeCommBuffer(username, snake.tailPos, snake.getPoint(),
-		snake.getVelocity());
+		this.buff = new SnakeCommBuffer(this.username, this.snake.tailPos, this.snake.getPoint(),
+									this.snake.getVelocity());
 
 //		if (!isServer) {
 //            if (clientConnTd == null) {
@@ -65,9 +65,9 @@ public class SnakeGamePanel extends AbstractGamePanel {
 
 	@Override
 	public void onTimer() {
-		if (!isPaused) {
-			if (isUpdateIter) {
-				isUpdateIter = false; //for the next iteration
+		if (!this.isPaused) {
+			if (this.isUpdateIter) {
+				this.isUpdateIter = false; //for the next iteration
 
 				//system.out.println("enemysize"+this.enemysnakes.size());
 				for(int i=0; i<this.enemysnakes.size();i++) {
@@ -86,14 +86,15 @@ public class SnakeGamePanel extends AbstractGamePanel {
 					//system.out.println("SnakeLenNow :" + this.snake.tailPos.size());
 				}
 			} else {
-				isUpdateIter = true; //for the next iteration
-				if(!isOver) {
-					isOver = !(snake.isEnabled());
-					if (!isServer) {
+				this.isUpdateIter = true; //for the next iteration
+				if(!this.isOver) {
+					this.isOver = !(snake.isEnabled());
+					if (!this.isServer) {
 						//update buffer with latest value
 						this.buff.snakePos = snake.tailPos;
 						this.buff.nextPos = snake.getPoint();
 						this.buff.velocity = snake.getVelocity();
+						this.buff.setActive(this.isOver);
 						//client send the buffer here
 						ClientConnThread.sendToServer(this.buff);
 
@@ -112,9 +113,10 @@ public class SnakeGamePanel extends AbstractGamePanel {
 					} else {
 						//server should receive all the clients new pos and then do op
 						//TODO: only sending sever snake details. Iterate for all clinets after proc
-						buff.snakePos = this.snake.tailPos;
-						buff.nextPos = this.snake.getPoint();
-						buff.velocity = this.snake.getVelocity();
+						this.buff.snakePos = this.snake.tailPos;
+						this.buff.nextPos = this.snake.getPoint();
+						this.buff.velocity = this.snake.getVelocity();
+						this.buff.setActive(this.isOver);
 						//Bundle bundle = new Bundle();
 						//bundle.putSerializable("buffer",buff.nextPosX);
 						//system.out.println("xfer_sr_snt");
@@ -138,17 +140,17 @@ public class SnakeGamePanel extends AbstractGamePanel {
 
 	@Override
 	public void redrawCanvas(Canvas canvas) {
-		if (snake.isEnabled()) {
-			snake.draw(canvas);
+		if (this.snake.isEnabled()) {
+			this.snake.draw(canvas);
 
-			for(int i=0; i<enemysnakes.size();i++) {
-				if(enemysnakes.get(i).isEnabled()) {
-					enemysnakes.get(i).draw(canvas);
+			for(int i=0; i<this.enemysnakes.size();i++) {
+				if(this.enemysnakes.get(i).isEnabled()) {
+					this.enemysnakes.get(i).draw(canvas);
 				}
 			}
 
-			apple.draw(canvas);
-			score.draw(canvas);
+			this.apple.draw(canvas);
+			this.score.draw(canvas);
 		} else {
 			Paint p = getPaint();
 			p.setTextSize(50);
@@ -159,12 +161,12 @@ public class SnakeGamePanel extends AbstractGamePanel {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		snake.handleKeyInput(keyCode);
+		this.snake.handleKeyInput(keyCode);
 		if (keyCode == KeyEvent.KEYCODE_G) {
 			onStart();
 		}
 		if (keyCode == KeyEvent.KEYCODE_P) {
-			isPaused = !isPaused;
+			this.isPaused = !this.isPaused;
 		}
 		return true;
 	}
@@ -172,13 +174,13 @@ public class SnakeGamePanel extends AbstractGamePanel {
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			snake.handleTouchInput(event);
+			this.snake.handleTouchInput(event);
 			return true;
 		}
 		return false;
 	}
 
 	public void serverUpdateNoPlayers(int nuser) {
-		nusers = nuser;
+		this.nusers = nuser;
 	}
 }

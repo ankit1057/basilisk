@@ -28,9 +28,9 @@ public class SnakeActor extends SimpleMovingActor {
 		super(x, y, DRAW_SIZE, DRAW_SIZE, colour);
 		this.colour = colour;
 		getVelocity().stop().setXDirection(Velocity.DIRECTION_RIGHT).setXSpeed(STEP);
-		tailPos = new ArrayList<PointsXY>();
-		tailPos.add(new PointsXY(x - this.getWidth(), y));
-		tailPos.add(new PointsXY(x - this.getWidth() * 2, y));
+		this.tailPos = new ArrayList<PointsXY>();
+		this.tailPos.add(new PointsXY(x - this.getWidth(), y));
+		this.tailPos.add(new PointsXY(x - this.getWidth() * 2, y));
 		this.userName = uname;
 		this.userID = -1; //default, invalid
 //		this.paint = new Paint();
@@ -47,7 +47,7 @@ public class SnakeActor extends SimpleMovingActor {
 	public void draw(Canvas canvas) {
 		getPaint().setColor(this.colour);
 		canvas.drawRect(getRect(), getPaint());
-		for (PointsXY p : tailPos) {
+		for (PointsXY p : this.tailPos) {
 			Rect r = new Rect(p.x, p.y, p.x + this.getWidth(), p.y + this.getHeight());
 			canvas.drawRect(r, getPaint());
 		}
@@ -66,10 +66,10 @@ public class SnakeActor extends SimpleMovingActor {
 		if (this.isEnabled()) {
 			int headX = getPoint().x;
 			int headY = getPoint().y;
-			for (int x = tailPos.size() - 1; x > 0; x--) {
-				tailPos.get(x).set(tailPos.get(x - 1).x, tailPos.get(x - 1).y);
+			for (int x = this.tailPos.size() - 1; x > 0; x--) {
+				this.tailPos.get(x).set(this.tailPos.get(x - 1).x, this.tailPos.get(x - 1).y);
 			}
-			tailPos.get(0).set(headX, headY);
+			this.tailPos.get(0).set(headX, headY);
 			super.move();
 		}
 	}

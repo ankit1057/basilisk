@@ -20,13 +20,13 @@ public abstract class SimpleMovingActor extends PositionedActor {
 	// Called to move position based on the velocity
 	public void move() {
 		if (this.isEnabled()) {
-			getPoint().x += (velocity.getXSpeed() * velocity.getXDirection());
-			getPoint().y += (velocity.getYSpeed() * velocity.getYDirection());
+			getPoint().x += (this.velocity.getXSpeed() * this.velocity.getXDirection());
+			getPoint().y += (this.velocity.getYSpeed() * this.velocity.getYDirection());
 		}
 	}
 	
 	public Velocity getVelocity() {
-		return velocity;
+		return this.velocity;
 	}
 
 	public void setVelocity(Velocity velocity) {
