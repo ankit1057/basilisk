@@ -73,7 +73,7 @@ public class ClientHandler extends Handler {
         }
         snakeIn.tailPos = cbuff.snakePos;
         snakeIn.setPoint(cbuff.nextPos);
-        snakeIn.setVelocity(cbuff.velocity);
+        //snakeIn.setVelocity(cbuff.velocity);
 
         return snakeIn;
     }

@@ -94,7 +94,7 @@ public class ServerConnThread {
 						if(!allplayersjoined) //check to see if all the clients have connected
 						{
 							objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
-							userid = userid ++;	//get next user ID for each clients
+							userid = userid + 1;	//get next user ID for each clients
 							Serverlistenerthread serverthread = new Serverlistenerthread(clientSocket, objectInputStream);
 							serverthread.start();
 							testmessage = context.getString(R.string.clientConnAck);

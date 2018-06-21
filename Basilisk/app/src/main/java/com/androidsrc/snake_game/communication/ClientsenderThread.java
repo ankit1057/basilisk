@@ -32,6 +32,7 @@ class ClientsenderThread extends Thread {
                 if (isActive) {
                     //outputStream = myserverSocket.getOutputStream();
                     //objectOutputStream = new ObjectOutputStream(outputStream);
+                    this.objectOutputStream.reset();
                     this.objectOutputStream.writeObject(message);
                 }
             }

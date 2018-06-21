@@ -105,7 +105,7 @@ public class HostFragment extends Fragment {
 
         //Send server snake to all
         //TODO: set user id also in constructor
-        tbuff = new SnakeCommBuffer(unmae, tsnake.tailPos, tsnake.getPoint(), tsnake.getVelocity());
+        tbuff = new SnakeCommBuffer(unmae, tsnake.tailPos, tsnake.getPoint()); //, tsnake.getVelocity());
         tbuff.setUserID(uid);
         ServerConnThread.sendToAll(tbuff);
 
@@ -122,7 +122,7 @@ public class HostFragment extends Fragment {
             tbuff.username = unmae;
             tbuff.snakePos = tsnake.tailPos;
             tbuff.nextPos = tsnake.getPoint();
-            tbuff.velocity = tsnake.getVelocity();
+            //tbuff.velocity = tsnake.getVelocity();
             tbuff.userID = uid;
             ServerConnThread.sendToAll(tbuff);
         }
@@ -135,7 +135,7 @@ public class HostFragment extends Fragment {
             tbuff.username = tsnake.userName;
             tbuff.snakePos = tsnake.tailPos;
             tbuff.nextPos = tsnake.getPoint();
-            tbuff.velocity = tsnake.getVelocity();
+            //tbuff.velocity = tsnake.getVelocity();
             tbuff.userID = tsnake.userID;
             ServerConnThread.sendToClient(tbuff);
         }

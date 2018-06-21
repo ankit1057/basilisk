@@ -36,7 +36,8 @@ class Serversenderthread extends Thread {
             try {
 //                outputStream = myclientSocket.getOutputStream();
 //                objectOutputStream = new ObjectOutputStream(outputStream);
-                objectOutputStream.writeObject(message);
+                this.objectOutputStream.reset();
+                this.objectOutputStream.writeObject(message);
               /*  if (message instanceof Game) {
                     PlayerListFragment.gameObject = (Game) message;
                 }*/

@@ -49,25 +49,24 @@ class Clientlistenerthread extends Thread
 
     @Override
     public void run() {
-        try {
-            while (true) {
-                Bundle data = new Bundle();
+        while (true) {
+            Bundle data = new Bundle();
+            try {
                 serverObject = (Object) this.objectInputStream.readObject();
                 if (serverObject != null) {
-                    if(serverObject instanceof PlayerInfo) {
+                    if (serverObject instanceof PlayerInfo) {
                         //data.putSerializable("Server_object_read", (PlayerInfo) serverObject);
                         ////system.out.println(data);
                         //system.out.println("Object read is - " + ((PlayerInfo) serverObject).username );
                         ////system.out.println("Object read is - " + ((PlayerInfo) serverObject).username);
-                    }
-                    else if(serverObject instanceof SnakeCommBuffer) {
+                    } else if (serverObject instanceof SnakeCommBuffer) {
                         //data.putSerializable("Server_object_read", (PlayerInfo) serverObject);
                         ////system.out.println(data);
                         //system.out.println("xfer_cl_rx_data" + ((SnakeCommBuffer) serverObject).snakePos.get(0).x +
                         //        ((SnakeCommBuffer) serverObject).snakePos.get(0).y + ((SnakeCommBuffer) serverObject).snakePos.get(1).x +
                         //        ((SnakeCommBuffer) serverObject).snakePos.get(1).y + "size" + ((SnakeCommBuffer) serverObject).snakePos.size());
 
-                        data.putSerializable(MainFragment.constants.DATA_KEY, (SnakeCommBuffer)serverObject);
+                        data.putSerializable(MainFragment.constants.DATA_KEY, (SnakeCommBuffer) serverObject);
 
                         Message msg = new Message();
                         msg.setData(data);
@@ -76,21 +75,19 @@ class Clientlistenerthread extends Thread
                         //clientsnake = new SnakeGamePanel(this.activity.getApplicationContext(), false);
                         //clientsnake.clientUpdate((SnakeCommBuffer)serverObject);
                         ////system.out.println("Object read is - " + ((PlayerInfo) serverObject).username);
-                    }
-                    else if(serverObject instanceof Bundle) {
+                    } else if (serverObject instanceof Bundle) {
                         //data.putSerializable("Server_object_read", (PlayerInfo) serverObject);
                         ////system.out.println(data);
-                        SnakeCommBuffer buff = (SnakeCommBuffer)((Bundle) serverObject).getSerializable("buffer");
+                        SnakeCommBuffer buff = (SnakeCommBuffer) ((Bundle) serverObject).getSerializable("buffer");
                         //system.out.println("xfer_cl_bndle");
                         //system.out.println("Object read is - " + buff.nextPos.x
                         //        + buff.nextPos.y );
                         ////system.out.println("Object read is - " + ((PlayerInfo) serverObject).username);
-                    }
-                    else if(serverObject instanceof String) {
+                    } else if (serverObject instanceof String) {
                         final String message = (String) serverObject;
 
                         //TODO: check the received string before processing
-                        if(message.equals(context.getString(R.string.clientConnAck))) {
+                        if (message.equals(context.getString(R.string.clientConnAck))) {
                             JoinGameFragment.isClientConnected = true;
                         }
 
@@ -105,11 +102,13 @@ class Clientlistenerthread extends Thread
                     }
 
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (ClassCastException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
 }

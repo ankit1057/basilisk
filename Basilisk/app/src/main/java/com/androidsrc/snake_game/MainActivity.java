@@ -2,6 +2,7 @@ package com.androidsrc.snake_game;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -12,6 +13,8 @@ import com.androidsrc.snake_game.communication.ClientConnThread;
 import com.androidsrc.snake_game.communication.PlayerInfo;
 import com.androidsrc.snake_game.communication.ServerConnThread;
 import com.androidsrc.snake_game.game.GameActivity;
+import com.androidsrc.snake_game.snakegame.SnakeActor;
+import com.androidsrc.snake_game.snakegame.SnakeCommBuffer;
 
 
 public class MainActivity extends Activity {
@@ -63,7 +66,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View arg0) {
 				if (!server) {
-					myserver = new ClientConnThread(MainActivity.this,  "192.168.1.3");
+					myserver = new ClientConnThread(MainActivity.this,  "192.168.43.1");
 					/*PlayerInfo username1 = new PlayerInfo("Basilisk_game_player_1");
 					ServerConnThread.sendToAll(username1);*/
 
@@ -79,16 +82,18 @@ public class MainActivity extends Activity {
 					//system.out.println(size1);
 					//Runtime.getRuntime().totalMemory();
 					PlayerInfo username1 = new PlayerInfo("Basilisk_game_player_1");
+					SnakeActor test1 = new SnakeActor(150,150, "test22", Color.YELLOW);
+					SnakeCommBuffer sbuff = new SnakeCommBuffer(test1.userName, test1.tailPos, test1.getPoint());
 					size2 = Runtime.getRuntime().totalMemory();
 					//system.out.println(size2);
 					//system.out.println("Size difference ="+ (size1 - size2));
 					if(server) {
-						//ServerConnThread.sendToAll(username1);
+						ServerConnThread.sendToAll(username1);
 						//TODO: old code, ignore it!
 					}
 					else
 					{
-						ClientConnThread.sendToServer(username1);
+						ClientConnThread.sendToServer(sbuff);
 						final int nbThreads = Thread.getAllStackTraces().keySet().size();
 						//system.out.println("Number of threads now is : "+nbThreads);
 					}

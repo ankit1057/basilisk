@@ -51,10 +51,10 @@ public class SnakeGamePanel extends AbstractGamePanel {
 //		}
 
 //		snake2 = new SnakeActor(300, 300, username, MainFragment.constants.colorLUT.get(3));
-		this.apple = new AppleActor(300, 50, MainFragment.constants.colorLUT.get(4));
+		this.apple = new AppleActor(300, 50, MainFragment.constants.colorLUT.get(0));
 		this.score = new ScoreBoard(this);
-		this.buff = new SnakeCommBuffer(this.username, this.snake.tailPos, this.snake.getPoint(),
-									this.snake.getVelocity());
+		this.buff = new SnakeCommBuffer(this.username, this.snake.tailPos, this.snake.getPoint());
+									//, this.snake.getVelocity());
 
 //		if (!isServer) {
 //            if (clientConnTd == null) {
@@ -93,7 +93,7 @@ public class SnakeGamePanel extends AbstractGamePanel {
 						//update buffer with latest value
 						this.buff.snakePos = snake.tailPos;
 						this.buff.nextPos = snake.getPoint();
-						this.buff.velocity = snake.getVelocity();
+						//this.buff.velocity = snake.getVelocity();
 						this.buff.setActive(this.isOver);
 						//client send the buffer here
 						ClientConnThread.sendToServer(this.buff);
@@ -115,7 +115,7 @@ public class SnakeGamePanel extends AbstractGamePanel {
 						//TODO: only sending sever snake details. Iterate for all clinets after proc
 						this.buff.snakePos = this.snake.tailPos;
 						this.buff.nextPos = this.snake.getPoint();
-						this.buff.velocity = this.snake.getVelocity();
+						//this.buff.velocity = this.snake.getVelocity();
 						this.buff.setActive(this.isOver);
 						//Bundle bundle = new Bundle();
 						//bundle.putSerializable("buffer",buff.nextPosX);

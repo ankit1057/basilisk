@@ -11,15 +11,16 @@ public class SnakeCommBuffer implements Serializable {
     public boolean isActive;
     public ArrayList<PointsXY> snakePos;
     public PointsXY nextPos;
-    public Velocity velocity;
+    //public Velocity velocity;
     public int nusers;
     public int userID;
 
-    public SnakeCommBuffer(String uname, ArrayList<PointsXY> snakePos, PointsXY nextPos, Velocity velocity) {
+    public SnakeCommBuffer(String uname, ArrayList<PointsXY> snakePos, PointsXY nextPos) {
+    //public SnakeCommBuffer(String uname, ArrayList<PointsXY> snakePos, PointsXY nextPos, Velocity velocity) {
         this.username = uname;
         this.snakePos = snakePos;
         this.nextPos = nextPos;
-        this.velocity = velocity;
+        //this.velocity = velocity;
         this.isActive = true;   //TODO: Verify this later
         this.nusers = 2;        //TODO: validate this initial condt later
     }
