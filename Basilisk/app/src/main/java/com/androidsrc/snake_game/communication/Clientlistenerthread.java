@@ -49,9 +49,9 @@ class Clientlistenerthread extends Thread
 
     @Override
     public void run() {
-        while (true) {
-            Bundle data = new Bundle();
-            try {
+        try {
+            while (true) {
+                Bundle data = new Bundle();
                 serverObject = (Object) this.objectInputStream.readObject();
                 if (serverObject != null) {
                     if (serverObject instanceof PlayerInfo) {
@@ -102,13 +102,13 @@ class Clientlistenerthread extends Thread
                     }
 
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (ClassCastException e) {
-                e.printStackTrace();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (ClassCastException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
@@ -116,17 +117,22 @@ public class SnakeActor extends SimpleMovingActor {
 	}
 
 	public void handleTouchInput(MotionEvent event) {
+		//Log.e("snakedir", "snake spped"+getVelocity().getYSpeed()+getVelocity().getXSpeed());
 		if (getVelocity().getYSpeed() == 0) {
 			if (event.getY() < this.getY()) {
 				getVelocity().stop().setYDirection(Velocity.DIRECTION_UP).setYSpeed(STEP);
+				//System.out.print("snakedir up");
 			} else if (event.getY() > this.getY() && getVelocity().getYSpeed() == 0) {
 				getVelocity().stop().setYDirection(Velocity.DIRECTION_DOWN).setYSpeed(STEP);
+				//System.out.print("snakedir down");
 			}
 		} else if (getVelocity().getXSpeed() == 0) {
 			if (event.getX() < this.getX()) {
 				getVelocity().stop().setXDirection(Velocity.DIRECTION_LEFT).setXSpeed(STEP);
+				//System.out.print("snakedir left");
 			} else if (event.getX() > this.getX()) {
 				getVelocity().stop().setXDirection(Velocity.DIRECTION_RIGHT).setXSpeed(STEP);
+				//System.out.print("snakedir right");
 			}
 		}
 	}
