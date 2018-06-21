@@ -10,6 +10,9 @@ import com.androidsrc.snake_game.game.MainFragment;
 import com.androidsrc.snake_game.snakegame.SnakeCommBuffer;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.ServerSocket;
@@ -29,9 +32,12 @@ public class ServerConnThread {
 	//public String username = "player1";
 	public static int userid;
 	public static HashMap<Socket , Integer> socketHashMapID = new HashMap();
+	public static HashMap<Socket , ObjectInputStream> socketHashMapIStream = new HashMap();
+	public static HashMap<Socket , ObjectOutputStream> socketHashMapOStream = new HashMap();
 	public static HashMap<Socket , String> socketHashMapUName = new HashMap();
 	static Object testmessage;
 	public static Context context;
+
 
 
 	public ServerConnThread(Context mycontext) {
@@ -63,6 +69,9 @@ public class ServerConnThread {
 	}
 
 	private class SocketServerThread extends Thread {
+
+		ObjectOutputStream objectOutputStream;
+		ObjectInputStream objectInputStream;
 		@Override
 		public void run() {
 			try {
@@ -84,15 +93,20 @@ public class ServerConnThread {
 						// Start a Service thread
 						if(!allplayersjoined) //check to see if all the clients have connected
 						{
+							objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
 							userid = userid ++;	//get next user ID for each clients
-							Serverlistenerthread serverthread = new Serverlistenerthread(clientSocket);
+							Serverlistenerthread serverthread = new Serverlistenerthread(clientSocket, objectInputStream);
 							serverthread.start();
 							testmessage = context.getString(R.string.clientConnAck);
-							Serversenderthread serverthread2 = new Serversenderthread(clientSocket, testmessage);
+
+							objectOutputStream = new ObjectOutputStream(clientSocket.getOutputStream());
+							Serversenderthread serverthread2 = new Serversenderthread(clientSocket, objectOutputStream, testmessage);
 							serverthread2.start();
 
 							//username will be replaced in listner thread
 							socketHashMapID.put(clientSocket,userid);
+							socketHashMapIStream.put(clientSocket,objectInputStream);
+							socketHashMapOStream.put(clientSocket,objectOutputStream);
 							socketHashMapUName.put(clientSocket,null);
 
 							if (socketHashMapID.size() == HostFragment.numberPlayers) {
@@ -126,12 +140,14 @@ public class ServerConnThread {
 	}
 
 	public static void sendToAll(Object gameObject) {
+		ObjectOutputStream objectOutputStream;
 		Iterator<Socket> socketIterator = ServerConnThread.socketHashMapID.keySet().iterator();
 		Socket socket;
 		while (socketIterator.hasNext()) {
 			socket = socketIterator.next();
 			if (!ServerConnThread.socketHashMapID.get(socket).equals(((SnakeCommBuffer) gameObject).userID)) {
-				Serversenderthread sendGame = new Serversenderthread(socket, gameObject);
+				objectOutputStream = ServerConnThread.socketHashMapOStream.get(socket);
+				Serversenderthread sendGame = new Serversenderthread(socket, objectOutputStream, gameObject);
 				sendGame.start();
 			}
 
@@ -145,12 +161,14 @@ public class ServerConnThread {
 	}
 
 	public static void sendToClient(Object gameObject) {
+		ObjectOutputStream objectOutputStream;
 		Iterator<Socket> socketIterator = ServerConnThread.socketHashMapID.keySet().iterator();
 		Socket socket;
 		while (socketIterator.hasNext()) {
 			socket = socketIterator.next();
 			if (ServerConnThread.socketHashMapID.get(socket).equals(((SnakeCommBuffer) gameObject).userID)) {
-				Serversenderthread sendGame = new Serversenderthread(socket, gameObject);
+				objectOutputStream = ServerConnThread.socketHashMapOStream.get(socket);
+				Serversenderthread sendGame = new Serversenderthread(socket, objectOutputStream, gameObject);
 				sendGame.start();
 				return;
 			}

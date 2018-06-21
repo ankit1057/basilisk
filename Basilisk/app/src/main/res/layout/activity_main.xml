@@ -73,16 +73,4 @@
         android:layout_marginBottom="21dp"
         android:text="Enter Game" />
 
-    <TextView
-        android:id="@+id/Basilisk"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/infoip"
-        android:layout_centerHorizontal="true"
-        android:text="Basilisk"
-        android:textAllCaps="true"
-        android:textColor="@android:color/background_light"
-        android:textSize="80sp"
-        android:textStyle="bold|italic" />
-
 </RelativeLayout>

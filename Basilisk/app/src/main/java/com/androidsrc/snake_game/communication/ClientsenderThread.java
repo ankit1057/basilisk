@@ -11,26 +11,28 @@ class ClientsenderThread extends Thread {
     Socket myserverSocket;
     MainActivity activity;
     Object message;
+    ObjectOutputStream objectOutputStream;
     public static boolean isActive = true;
 
     public ClientsenderThread() {
         super();
     }
 
-    ClientsenderThread(Socket s, Object message) {
-        myserverSocket = s;
+    ClientsenderThread(Socket s, ObjectOutputStream objectOutputStream, Object message) {
+        this.myserverSocket = s;
         this.message = message;
+        this.objectOutputStream = objectOutputStream;
     }
 
     public void run() {
-        OutputStream outputStream;
-        ObjectOutputStream objectOutputStream;
-        if (myserverSocket.isConnected()) {
+        //OutputStream outputStream;
+        //ObjectOutputStream objectOutputStream;
+        if (this.myserverSocket.isConnected()) {
             try {
                 if (isActive) {
-                    outputStream = myserverSocket.getOutputStream();
-                    objectOutputStream = new ObjectOutputStream(outputStream);
-                    objectOutputStream.writeObject(message);
+                    //outputStream = myserverSocket.getOutputStream();
+                    //objectOutputStream = new ObjectOutputStream(outputStream);
+                    this.objectOutputStream.writeObject(message);
                 }
             }
             catch (IOException e)

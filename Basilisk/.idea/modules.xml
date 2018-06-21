@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Basilisk_nonstatic_t1.iml" filepath="$PROJECT_DIR$/Basilisk_nonstatic_t1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Basilisk_conn_resolved.iml" filepath="$PROJECT_DIR$/Basilisk_conn_resolved.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

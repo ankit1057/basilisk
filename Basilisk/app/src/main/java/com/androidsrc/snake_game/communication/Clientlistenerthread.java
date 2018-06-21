@@ -30,27 +30,29 @@ class Clientlistenerthread extends Thread
     Context context;
     //SnakeGamePanel clientsnake;
 
+    ObjectInputStream objectInputStream;
+    InputStream inputStream = null;
+    Object serverObject;
+
+
     public Clientlistenerthread(Context mycontext)
     {
         super();
     }
 
-    Clientlistenerthread(Context mycontext, Socket s)
+    Clientlistenerthread(Context mycontext, Socket s, ObjectInputStream objectInputStream)
     {
-        context = mycontext;
-        myserverSocket = s;
+        this.context = mycontext;
+        this.myserverSocket = s;
+        this.objectInputStream = objectInputStream;
     }
 
     @Override
     public void run() {
         try {
             while (true) {
-                ObjectInputStream objectInputStream;
-                InputStream inputStream = null;
-                inputStream = myserverSocket.getInputStream();
-                objectInputStream = new ObjectInputStream(inputStream);
                 Bundle data = new Bundle();
-                Object serverObject = (Object) objectInputStream.readObject();
+                serverObject = (Object) this.objectInputStream.readObject();
                 if (serverObject != null) {
                     if(serverObject instanceof PlayerInfo) {
                         //data.putSerializable("Server_object_read", (PlayerInfo) serverObject);

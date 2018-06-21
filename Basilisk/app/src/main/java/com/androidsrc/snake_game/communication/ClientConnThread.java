@@ -7,6 +7,9 @@ import com.androidsrc.snake_game.R;
 import com.androidsrc.snake_game.game.MainFragment;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.Socket;
@@ -26,6 +29,8 @@ public class ClientConnThread {
     static HashMap<Socket,Boolean> activesocketsinfo = new HashMap<Socket, Boolean>();
     Object testmessage;
     static Context context;
+    static ObjectOutputStream objectOutputStream;
+    static ObjectInputStream objectInputStream;
 
 
     public ClientConnThread(Context mycontext, String ip) {
@@ -71,12 +76,14 @@ public class ClientConnThread {
                     sockethashmap.put("Server", clientsendersocket);
                     ServerOn = true;
                     activesocketsinfo.put(clientsendersocket, ServerOn);
+                    objectOutputStream = new ObjectOutputStream(clientsendersocket.getOutputStream());
+                    objectInputStream = new ObjectInputStream(clientsendersocket.getInputStream());
                     playerInfo = new PlayerInfo(MainFragment.userName.getText().toString());
                     while (ServerOn) {
                         if (clientthreadcount < 2) {
                             testmessage = context.getString(R.string.clientConnReq);
-                            ClientsenderThread cliThread = new ClientsenderThread(clientsendersocket, playerInfo); //TODO: check this later
-                            Clientlistenerthread cliThread2 = new Clientlistenerthread(context, clientsendersocket);
+                            ClientsenderThread cliThread = new ClientsenderThread(clientsendersocket, objectOutputStream, playerInfo); //TODO: check this later
+                            Clientlistenerthread cliThread2 = new Clientlistenerthread(context, clientsendersocket, objectInputStream);
                             //Number of threads
                             clientthreadcount = 2;
                             final int nbThreads = Thread.getAllStackTraces().keySet().size();
@@ -131,7 +138,7 @@ public class ClientConnThread {
     }
     public static void sendToServer(Object gameObject) {
         Socket socket = sockethashmap.get("Server");
-        ClientsenderThread sendtoserver = new ClientsenderThread(socket, gameObject);
+        ClientsenderThread sendtoserver = new ClientsenderThread(clientsendersocket, objectOutputStream, gameObject);
         sendtoserver.start();
     }
 }

@@ -12,14 +12,16 @@ class Serversenderthread extends Thread {
     MainActivity activity;
     Object message;
     static int testcount = 0;
+    ObjectOutputStream objectOutputStream;
 
     public Serversenderthread() {
         super();
     }
 
-    Serversenderthread(Socket s, Object message) {
-        myclientSocket = s;
+    Serversenderthread(Socket s, ObjectOutputStream objectOutputStream, Object message) {
+        this.myclientSocket = s;
         this.message = message;
+        this.objectOutputStream = objectOutputStream;
     }
 
     //function used to actively update the snake_game state
@@ -29,11 +31,11 @@ class Serversenderthread extends Thread {
 
     public void run() {
         if (myclientSocket.isConnected()) {
-            OutputStream outputStream;
-            ObjectOutputStream objectOutputStream;
+//            OutputStream outputStream;
+//            ObjectOutputStream objectOutputStream;
             try {
-                outputStream = myclientSocket.getOutputStream();
-                objectOutputStream = new ObjectOutputStream(outputStream);
+//                outputStream = myclientSocket.getOutputStream();
+//                objectOutputStream = new ObjectOutputStream(outputStream);
                 objectOutputStream.writeObject(message);
               /*  if (message instanceof Game) {
                     PlayerListFragment.gameObject = (Game) message;

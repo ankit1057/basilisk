@@ -18,34 +18,33 @@ class Serverlistenerthread extends Thread {
     Socket myclientSocket;
     MainActivity activity;
     static Constants constants;
+    ObjectInputStream objectInputStream;
+    InputStream inputStream = null;
+    Object gameObject;
 
     public Serverlistenerthread() {
         super();
     }
 
-    Serverlistenerthread(Socket s) {
-        myclientSocket = s;
-        constants = MainFragment.constants;
+    Serverlistenerthread(Socket s, ObjectInputStream objectInputStream) {
+        this.myclientSocket = s;
+        this.constants = MainFragment.constants;
+        this.objectInputStream = objectInputStream;
     }
 
     public void run() {
-        while (myclientSocket.isConnected()) {
-            ObjectInputStream objectInputStream;
+        while (this.myclientSocket.isConnected()) {
             try {
-                InputStream inputStream = null;
-                inputStream = myclientSocket.getInputStream();
-                objectInputStream = new ObjectInputStream(inputStream);
-                Object gameObject;
                 Bundle data = new Bundle();
-                gameObject = objectInputStream.readObject();
+                gameObject = this.objectInputStream.readObject();
 
                 if (gameObject != null) {
                     if (gameObject instanceof PlayerInfo) {
                         PlayerInfo plinfo = (PlayerInfo) gameObject;
                         //update the hashmap name from client
-                        ServerConnThread.socketHashMapUName.put(myclientSocket, plinfo.username);
+                        ServerConnThread.socketHashMapUName.put(this.myclientSocket, plinfo.username);
                         //update the plinfo userid from hashmap
-                        plinfo.userid = ServerConnThread.socketHashMapID.get(myclientSocket);
+                        plinfo.userid = ServerConnThread.socketHashMapID.get(this.myclientSocket);
 
                         data.putSerializable(constants.DATA_KEY, plinfo);
                         data.putInt(constants.ACTION_KEY, constants.PLAYER_LIST_UPDATE);
