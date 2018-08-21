@@ -17,22 +17,22 @@ import java.util.ArrayList;
 public class SnakeActor extends SimpleMovingActor {
 	public static final int DRAW_SIZE = 25;
 	public static final int STEP = 25;
-	public static ArrayList<PointsXY> tailPos;
+	public ArrayList<PointsXY> tailPos;
 	public String userName; //changes for each snake!!
 	public int userID;
 	private int colour;
 //	private Paint paint;
 
 
-	public SnakeActor(int x, int y, String uname, int uid, int colour) {
+	public SnakeActor(int x, int y, String uname, int colour) {
 		super(x, y, DRAW_SIZE, DRAW_SIZE, colour);
 		this.colour = colour;
 		getVelocity().stop().setXDirection(Velocity.DIRECTION_RIGHT).setXSpeed(STEP);
-		tailPos = new ArrayList<PointsXY>();
-		tailPos.add(new PointsXY(x - this.getWidth(), y));
-		tailPos.add(new PointsXY(x - this.getWidth() * 2, y));
-		userName = uname;
-		userID = uid;
+		this.tailPos = new ArrayList<PointsXY>();
+		this.tailPos.add(new PointsXY(x - this.getWidth(), y));
+		this.tailPos.add(new PointsXY(x - this.getWidth() * 2, y));
+		this.userName = uname;
+		this.userID = -1; //default, invalid
 //		this.paint = new Paint();
 //		stylePaint(this.paint, this.colour);
 	}
@@ -47,7 +47,7 @@ public class SnakeActor extends SimpleMovingActor {
 	public void draw(Canvas canvas) {
 		getPaint().setColor(this.colour);
 		canvas.drawRect(getRect(), getPaint());
-		for (PointsXY p : tailPos) {
+		for (PointsXY p : this.tailPos) {
 			Rect r = new Rect(p.x, p.y, p.x + this.getWidth(), p.y + this.getHeight());
 			canvas.drawRect(r, getPaint());
 		}
@@ -66,10 +66,10 @@ public class SnakeActor extends SimpleMovingActor {
 		if (this.isEnabled()) {
 			int headX = getPoint().x;
 			int headY = getPoint().y;
-			for (int x = tailPos.size() - 1; x > 0; x--) {
-				tailPos.get(x).set(tailPos.get(x - 1).x, tailPos.get(x - 1).y);
+			for (int x = this.tailPos.size() - 1; x > 0; x--) {
+				this.tailPos.get(x).set(this.tailPos.get(x - 1).x, this.tailPos.get(x - 1).y);
 			}
-			tailPos.get(0).set(headX, headY);
+			this.tailPos.get(0).set(headX, headY);
 			super.move();
 		}
 	}
@@ -78,9 +78,8 @@ public class SnakeActor extends SimpleMovingActor {
 		this.tailPos.add(new PointsXY(getX(), getY()));
 	}
 
-	public boolean checkBoundsCollision(AbstractGamePanel panel, ArrayList<SnakeCommBuffer> enemies) {
+	public boolean checkBoundsCollision(AbstractGamePanel panel, ArrayList<PointsXY> enemies) {
 		int isnake, jpoint;
-		SnakeCommBuffer snakeNow;
 		int headX = this.getX();
 		int headY = this.getY();
 
@@ -93,14 +92,11 @@ public class SnakeActor extends SimpleMovingActor {
 		} else if (headY >= (panel.getHeight() - this.getHeight())) {
 			return true;
 		}
-
+		//system.out.println("checkboundsize"+enemies.size());
 		for (isnake = 0; isnake < enemies.size(); isnake++) {
-			snakeNow = enemies.get(isnake);
-			for (jpoint = 0; jpoint < snakeNow.snakePos.size(); jpoint++) {
-				if ((headX == snakeNow.snakePos.get(jpoint).x) &
-						(headY == snakeNow.snakePos.get(jpoint).y)) {
-					return true;
-				}
+			if ((headX == enemies.get(isnake).x) &
+					(headY == enemies.get(isnake).y)) {
+				return true;
 			}
 		}
 

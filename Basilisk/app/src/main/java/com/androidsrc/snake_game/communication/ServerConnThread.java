@@ -27,6 +27,7 @@ public class ServerConnThread {
 	boolean ServerOn = false;
 	public boolean allplayersjoined = false;
 	//public String username = "player1";
+	public static int userid;
 	public static HashMap<Socket , Integer> socketHashMapID = new HashMap();
 	public static HashMap<Socket , String> socketHashMapUName = new HashMap();
 	static Object testmessage;
@@ -37,6 +38,7 @@ public class ServerConnThread {
 		Thread socketServerThread = new Thread(new SocketServerThread());
 		socketServerThread.start();
 		context = mycontext;
+		userid = MainFragment.constants.SERVER_USER_ID;		//user id for the server is 1.
 	}
 
 	public int getPort() {
@@ -61,7 +63,6 @@ public class ServerConnThread {
 	}
 
 	private class SocketServerThread extends Thread {
-		int userid;
 		@Override
 		public void run() {
 			try {
@@ -83,8 +84,7 @@ public class ServerConnThread {
 						// Start a Service thread
 						if(!allplayersjoined) //check to see if all the clients have connected
 						{
-							HostFragment.userID = HostFragment.userID + 1;	//get next user ID for each clients
-							userid = HostFragment.userID;
+							userid = userid ++;	//get next user ID for each clients
 							Serverlistenerthread serverthread = new Serverlistenerthread(clientSocket);
 							serverthread.start();
 							testmessage = context.getString(R.string.clientConnAck);
@@ -93,6 +93,7 @@ public class ServerConnThread {
 
 							//username will be replaced in listner thread
 							socketHashMapID.put(clientSocket,userid);
+							socketHashMapUName.put(clientSocket,null);
 
 							if (socketHashMapID.size() == HostFragment.numberPlayers) {
 								allplayersjoined = true;
@@ -102,7 +103,7 @@ public class ServerConnThread {
 					}
 					catch(IOException ioe)
 					{
-						//System.out.println("Exception encountered on accept. Ignoring. Stack Trace :");
+						//system.out.println("Exception encountered on accept. Ignoring. Stack Trace :");
 						ioe.printStackTrace();
 					}
 				}
@@ -110,11 +111,11 @@ public class ServerConnThread {
 				{
 					myserverSocket.close();
 					ServerOn = false;
-					//System.out.println("ServerConnThread Stopped");
+					//system.out.println("ServerConnThread Stopped");
 				}
 				catch(Exception ioe)
 				{
-					//System.out.println("Problem stopping snake_game socket");
+					//system.out.println("Problem stopping snake_game socket");
 					System.exit(-1);
 				}
 			} catch (IOException e) {
@@ -151,6 +152,7 @@ public class ServerConnThread {
 			if (ServerConnThread.socketHashMapID.get(socket).equals(((SnakeCommBuffer) gameObject).userID)) {
 				Serversenderthread sendGame = new Serversenderthread(socket, gameObject);
 				sendGame.start();
+				return;
 			}
 		}
 	}

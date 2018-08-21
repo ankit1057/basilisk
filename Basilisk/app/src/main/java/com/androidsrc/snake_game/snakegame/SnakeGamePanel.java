@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.androidsrc.snake_game.MainActivity;
+import com.androidsrc.snake_game.communication.ClientConnThread;
 import com.androidsrc.snake_game.communication.ServerConnThread;
 import com.androidsrc.snake_game.game.MainFragment;
 import com.androidsrc.snake_game.panels.AbstractGamePanel;
@@ -22,37 +23,38 @@ public class SnakeGamePanel extends AbstractGamePanel {
     public static boolean isUpdateIter;
     public static String username;
 	public static int nusers;
-	public static ArrayList<SnakeCommBuffer> enemies; //used to store details about other snakes
-    public SnakeActor snake, snake2;
-	public static ArrayList<SnakeActor> enemysnakes;
+	public ArrayList<SnakeCommBuffer> enemies; //used to store details about other snakes
+    public SnakeActor snake;
+	public ArrayList<SnakeActor> enemysnakes;
     private AppleActor apple;
     private ScoreBoard score;
-    private static SnakeCommBuffer buff;
+    private SnakeCommBuffer buff;
     private static boolean isPaused = false;
+    private static boolean isOver = false;
 
     //public static ClientHandler clientConnTd;
 
 	public SnakeGamePanel(String uname, Context context, boolean isServ) {
 		super(context);
-		isServer = isServ;
-		username = uname;
-		enemies = new ArrayList<SnakeCommBuffer>();
-		enemysnakes = new ArrayList<SnakeActor>();
+		this.isServer = isServ;
+		this.username = uname;
+		this.enemies = new ArrayList<SnakeCommBuffer>();
+		this.enemysnakes = new ArrayList<SnakeActor>();
 	}
 
 
 	@Override
 	public void onStart() {
-//
+
 //		if(isServer) {
 //			snake = new SnakeActor(100, 100, username, MainFragment.constants.colorLUT.get(2));
 //		}
 
-		snake2 = new SnakeActor(300, 300, username, 5, MainFragment.constants.colorLUT.get(5));
-		apple = new AppleActor(300, 50, MainFragment.constants.colorLUT.get(4));
-		score = new ScoreBoard(this);
-		buff = new SnakeCommBuffer(username, snake.tailPos, snake.getPoint(),
-		snake.getVelocity());
+//		snake2 = new SnakeActor(300, 300, username, MainFragment.constants.colorLUT.get(3));
+		this.apple = new AppleActor(300, 50, MainFragment.constants.colorLUT.get(4));
+		this.score = new ScoreBoard(this);
+		this.buff = new SnakeCommBuffer(this.username, this.snake.tailPos, this.snake.getPoint(),
+									this.snake.getVelocity());
 
 //		if (!isServer) {
 //            if (clientConnTd == null) {
@@ -63,53 +65,64 @@ public class SnakeGamePanel extends AbstractGamePanel {
 
 	@Override
 	public void onTimer() {
-		if (!isPaused) {
-			if (isUpdateIter) {
-				isUpdateIter = false; //for the next iteration
+		if (!this.isPaused) {
+			if (this.isUpdateIter) {
+				this.isUpdateIter = false; //for the next iteration
 
-				if (snake.checkBoundsCollision(this, enemies)) {
-					snake.setEnabled(false);
+				//system.out.println("enemysize"+this.enemysnakes.size());
+				for(int i=0; i<this.enemysnakes.size();i++) {
+					if (this.snake.checkBoundsCollision(this, this.enemysnakes.get(i).tailPos)) {
+						this.snake.setEnabled(false);
+						break;
+					}
 				}
-				snake.move();
-				if (apple.intersect(snake)) {
-					snake.grow();
-					score.earnPoints(50);
-					apple.reposition(this);
-					//System.out.println("SnakeLenNow :" + snake.tailPos.size());
+
+
+				this.snake.move();
+				if (this.apple.intersect(this.snake)) {
+					this.snake.grow();
+					this.score.earnPoints(50);
+					this.apple.reposition(this);
+					//system.out.println("SnakeLenNow :" + this.snake.tailPos.size());
 				}
 			} else {
-				isUpdateIter = true; //for the next iteration
-				if (!isServer) {
-					//update buffer with latest value
-					buff.snakePos = snake.tailPos;
-					buff.nextPos = snake.getPoint();
-					buff.velocity = snake.getVelocity();
-					//client send the buffer here
-					//ClientConnThread.sendToServer(buff);
-					//System.out.println("xfer_cl_snt");
+				this.isUpdateIter = true; //for the next iteration
+				if(!this.isOver) {
+					this.isOver = !(snake.isEnabled());
+					if (!this.isServer) {
+						//update buffer with latest value
+						this.buff.snakePos = snake.tailPos;
+						this.buff.nextPos = snake.getPoint();
+						this.buff.velocity = snake.getVelocity();
+						this.buff.setActive(this.isOver);
+						//client send the buffer here
+						ClientConnThread.sendToServer(this.buff);
 
-					if(enemies.size() > 0) {
-						snake2.tailPos = enemies.get(0).snakePos;
-						snake2.setPoint(enemies.get(0).nextPos);
+						////system.out.println("xfer_cl_snt");
+
+						//					if(enemies.size() > 0) {
+						//						snake2.tailPos = enemies.get(0).snakePos;
+						//						snake2.setPoint(enemies.get(0).nextPos);
+						//					}
+						//snake2.getVelocity(enemies.get(0).velocity);
+
+						//client wait for the processed data from server
+						//receive snakeServerBuffer here
+						//based on command from buf, do op
+						//snake.move();
+					} else {
+						//server should receive all the clients new pos and then do op
+						//TODO: only sending sever snake details. Iterate for all clinets after proc
+						this.buff.snakePos = this.snake.tailPos;
+						this.buff.nextPos = this.snake.getPoint();
+						this.buff.velocity = this.snake.getVelocity();
+						this.buff.setActive(this.isOver);
+						//Bundle bundle = new Bundle();
+						//bundle.putSerializable("buffer",buff.nextPosX);
+						//system.out.println("xfer_sr_snt");
+						//PlayerInfo xp = new PlayerInfo("send2");
+						ServerConnThread.sendToAll(this.buff); //TODO: Change it back to buff
 					}
-					//snake2.getVelocity(enemies.get(0).velocity);
-
-					//client wait for the processed data from server
-					//receive snakeServerBuffer here
-					//based on command from buf, do op
-					//snake.move();
-				} else {
-					//server should receive all the clients new pos and then do op
-					//TODO: only sending sever snake details. Iterate for all clinets after proc
-					buff.snakePos = snake.tailPos;
-					buff.nextPos = snake.getPoint();
-					buff.velocity = snake.getVelocity();
-					//Bundle bundle = new Bundle();
-					//bundle.putSerializable("buffer",buff.nextPosX);
-					//System.out.println("xfer_sr_snt");
-					//PlayerInfo xp = new PlayerInfo("send2");
-					ServerConnThread.sendToAll(buff); //TODO: Change it back to buff
-					//server
 				}
 
 				//			if (snake.checkBoundsCollision(this)) {
@@ -127,11 +140,17 @@ public class SnakeGamePanel extends AbstractGamePanel {
 
 	@Override
 	public void redrawCanvas(Canvas canvas) {
-		if (snake.isEnabled()) {
-			snake.draw(canvas);
-			snake2.draw(canvas);
-			apple.draw(canvas);
-			score.draw(canvas);
+		if (this.snake.isEnabled()) {
+			this.snake.draw(canvas);
+
+			for(int i=0; i<this.enemysnakes.size();i++) {
+				if(this.enemysnakes.get(i).isEnabled()) {
+					this.enemysnakes.get(i).draw(canvas);
+				}
+			}
+
+			this.apple.draw(canvas);
+			this.score.draw(canvas);
 		} else {
 			Paint p = getPaint();
 			p.setTextSize(50);
@@ -142,12 +161,12 @@ public class SnakeGamePanel extends AbstractGamePanel {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		snake.handleKeyInput(keyCode);
+		this.snake.handleKeyInput(keyCode);
 		if (keyCode == KeyEvent.KEYCODE_G) {
 			onStart();
 		}
 		if (keyCode == KeyEvent.KEYCODE_P) {
-			isPaused = !isPaused;
+			this.isPaused = !this.isPaused;
 		}
 		return true;
 	}
@@ -155,29 +174,13 @@ public class SnakeGamePanel extends AbstractGamePanel {
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			snake.handleTouchInput(event);
+			this.snake.handleTouchInput(event);
 			return true;
 		}
 		return false;
 	}
 
 	public void serverUpdateNoPlayers(int nuser) {
-		nusers = nuser;
+		this.nusers = nuser;
 	}
-
-    public void clientUpdate(SnakeCommBuffer rxbuff) {
-
-	    buff = rxbuff;
-        snake.setPoint(rxbuff.nextPos);
-        snake.move();
-//        if (snake.checkBoundsCollision(this)) {
-//            snake.setEnabled(false);
-//        }
-//        snake.move();
-//        if (apple.intersect(snake)) {
-//            snake.grow();
-//            score.earnPoints(50);
-//            apple.reposition(this);
-//        }
-    }
 }

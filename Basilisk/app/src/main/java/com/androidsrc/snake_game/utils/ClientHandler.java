@@ -27,7 +27,7 @@ public class ClientHandler extends Handler {
 
         if (clientObject instanceof SnakeCommBuffer) {
             cob = (SnakeCommBuffer) clientObject;
-            //System.out.println("MessageHandlerOut Client"+cob.nextPos.x+cob.nextPos.y);
+            ////system.out.println("MessageHandlerOut Client"+cob.nextPos.x+cob.nextPos.y);
 
             //TODO: Verify below comment from server. Caution! may reset the client!!
             //If the received username is for the current user, then that is start of the game
@@ -50,19 +50,16 @@ public class ClientHandler extends Handler {
                     //TODO: Remove list which is dummy
                     //enemylist.add(cob);
                 } else {
-                    boolean isNew = true;
                     for (int i = 0; i < enemysnakes.size(); i++) {
                         if (enemysnakes.get(i).userName.equals(cob.username)) {
                             enemysnakes.set(i, updateSnake(enemysnakes.get(i), cob));
                             //enemylist.set(i, cob);
-                            isNew = false;
+                            return;
                         }
                     }
-
-                    if (isNew) { //new user
-                        enemysnakes.add(updateSnake(null, cob));
-                        //enemylist.add(cob);
-                    }
+                    //new user
+                    enemysnakes.add(updateSnake(null, cob));
+                    //enemylist.add(cob);
                 }
             }
         }
@@ -71,8 +68,8 @@ public class ClientHandler extends Handler {
     private SnakeActor updateSnake(SnakeActor snakeIn, SnakeCommBuffer cbuff) {
 
         if (snakeIn == null) {
-            snakeIn = new SnakeActor(cbuff.nextPos.x, cbuff.nextPos.y, cbuff.username,
-                    cbuff.userID, MainFragment.constants.colorLUT.get(cbuff.userID));
+            snakeIn = new SnakeActor(cbuff.nextPos.x, cbuff.nextPos.y,
+                    cbuff.username, MainFragment.constants.colorLUT.get(cbuff.userID));
         }
         snakeIn.tailPos = cbuff.snakePos;
         snakeIn.setPoint(cbuff.nextPos);

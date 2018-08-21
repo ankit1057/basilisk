@@ -13,7 +13,7 @@ public abstract class Actor {
 		this.enabled = true;
 		// Setup paint for actor
 		this.paint = new Paint();
-		stylePaint(paint, -1);
+		stylePaint(this.paint, -1);
 	}
 	
 	public Actor(int colour) {
@@ -21,7 +21,7 @@ public abstract class Actor {
 		this.enabled = true;
 	    // Setup paint for actor
 		this.paint = new Paint();
-		stylePaint(paint, colour);
+		stylePaint(this.paint, colour);
 	}
 	
 	public Paint getPaint() {
@@ -29,7 +29,7 @@ public abstract class Actor {
 	}
 	
 	public boolean isEnabled() {
-		return enabled;
+		return this.enabled;
 	}
 	
 	public void setEnabled(boolean state) {
